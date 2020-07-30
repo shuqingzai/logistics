@@ -10,9 +10,9 @@
     ],
     "require": {
         "php": "^7.2",
-        "guzzlehttp/guzzle": "^6.5||^7.0",
         "ext-json": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "guzzlehttp/guzzle": "^6.5||^7.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^v5.1",
