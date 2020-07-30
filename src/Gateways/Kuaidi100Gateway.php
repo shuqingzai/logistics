@@ -12,11 +12,14 @@ declare(strict_types=1);
 namespace Sqz\Logistics\Gateways;
 
 
+use Psr\Http\Message\ResponseInterface;
 use Sqz\Logistics\Exceptions\GatewayAvailableException;
+use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\InvalidArgumentException;
+use Sqz\Logistics\Supports\Collection;
 
 
-class Kuaidi100Gateway extends Gateway
+class Kuaidi100Gateway extends GatewayAbstract
 {
     const API_QUERY_URL = 'https://poll.kuaidi100.com/poll/query.do';
 
@@ -25,15 +28,35 @@ class Kuaidi100Gateway extends Gateway
     public function query(string $trackingNumber, ?string $company = null)
     {
         $companyCode = \is_null($company) ? $this->getCompanyCode($trackingNumber) : $this->getCompanyCodeByFile($company);
+        if (empty($companyCode)) {
+            throw new InvalidArgumentException('Error obtaining courier code');
+        }
+
+        $param     = [
+            'com'      => $companyCode,
+            'num'      => $trackingNumber,
+            'resultv2' => 1
+        ];
+        $appSecret = $this->config->get('app_secret');
+        $params    = [
+            'customer' => $appSecret,
+            'param'    => \json_encode($param),
+            'sign'     => $this->generateSign($param, $this->config->get('app_key'), $appSecret),
+        ];
+
+        $response = $this->post(self::API_QUERY_URL, $params);
+
+        return $this->formatData($response);
     }
 
+
     /**
-     * 获取快递公司编号
+     * 请求API获取快递公司code
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 17:19
      *
-     * @param string $trackingNumber
+     * @param string $trackingNumber 快递单号
      * @return string
      * @throws GatewayAvailableException
      */
@@ -53,23 +76,7 @@ class Kuaidi100Gateway extends Gateway
         if (empty($response)) {
             throw new GatewayAvailableException((array)$response, 404);
         }
-        return \current($response)['comCode'];
-    }
-
-    protected function getCompanyCodeByFile(string $company)
-    {
-        $companyList        = [include '../config/company.php'];
-        $configCompanyFiles = $this->config->get('company_file', []);
-        foreach ($configCompanyFiles as $filePath) {
-            $companyList;
-        }
-        $index = \array_search($company, \array_column($companyList, 'name'));
-
-        if (false !== $index) {
-            return $companyList[$index]['code'][$this->getGatewayName()];
-        }
-
-        throw new InvalidArgumentException();
+        return \strtolower(\current($response)['comCode']);
     }
 
     /**
@@ -86,5 +93,105 @@ class Kuaidi100Gateway extends Gateway
     protected function generateSign(array $params, string $appKey, string $appSecret)
     {
         return \strtoupper(\md5(\json_encode($params) . $appKey . $appSecret));
+    }
+
+    /**
+     * 统一格式化物流状态code
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/30 11:28
+     *
+     * @param int|string $originalStatus 原始返回的状态
+     * @return int
+     */
+    protected function formatStatus($originalStatus): int
+    {
+        switch (\intval($originalStatus)) {
+            case 0:
+            case 7:
+            case 10:
+            case 11:
+            case 12:
+                $status = self::LOGISTICS_IN_TRANSIT;
+                break;
+            case 1:
+                $status = self::LOGISTICS_TAKING;
+                break;
+            case 2:
+                $status = self::LOGISTICS_PROBLEM;
+                break;
+            case 3:
+                $status = self::LOGISTICS_SIGNED;
+                break;
+            case 4:
+                $status = self::LOGISTICS_RETURN_RECEIPT;
+                break;
+            case 5:
+                $status = self::LOGISTICS_DELIVERING;
+                break;
+            case 6:
+                $status = self::LOGISTICS_SEND_RETURN;
+                break;
+            case 14:
+                $status = self::LOGISTICS_REJECTED;
+                break;
+            default:
+                $status = self::LOGISTICS_ERROR;
+                break;
+        }
+        return $status;
+    }
+
+    /**
+     * 格式化响应数据
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/30 14:22
+     *
+     * @param ResponseInterface|array|string $response 原始响应数据
+     * @return array
+     * @throws GatewayAvailableException
+     */
+    protected function formatData($response): array
+    {
+        if (!\is_array($response)) {
+            $response = \json_decode($response, true);
+        }
+
+        if (empty($response)) {
+            throw new GatewayAvailableException((array)$response, 404);
+        }
+
+        $list = [];
+        if (\intval($response['status'] ?? 500) === 200) {
+            $code           = 1;
+            $originalStatus = $response['state'];
+            $companyCode    = $response['com'];
+            $trackingNumber = $response['nu'];
+            foreach ($response['data'] as $item) {
+                $list[] = [
+                    'context'   => $item['context'],
+                    'date_time' => $item['ftime'],
+                ];
+            }
+        }
+        else {
+            $code           = 0;
+            $originalStatus = 99;
+            $companyCode    = '';
+            $trackingNumber = '';
+        }
+
+        $status = $this->formatStatus($originalStatus);
+        return [
+            'code'            => $code,
+            'status'          => $status,
+            'status_name'     => $this->getStatusName($status),
+            'company_code'    => $companyCode,
+            'company_name'    => $this->companyName ?: $companyCode,
+            'tracking_number' => $trackingNumber,
+            'list'            => $list,
+            'original_data'   => \json_encode($response)
+        ];
     }
 }

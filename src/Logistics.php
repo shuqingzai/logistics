@@ -14,6 +14,7 @@ namespace Sqz\Logistics;
 
 use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\GatewayAvailableException;
+use Sqz\Logistics\Supports\Collection;
 
 class Logistics
 {
@@ -61,32 +62,34 @@ class Logistics
 
         $gatewaysConfig = $this->logisticsGatewayManager->getGateways();
         $results        = [];
+        $errResults     = 0;
         foreach ($gatewaysConfig as $gateway => $config) {
 
             if (!empty($gateways) && !\in_array($gateway, $gateways)) {
                 throw new GatewayErrorException('The gateway "' . $gateway . '" is unavailable');
             }
 
-            try {
-                $results[$gateway] = [
-                    'gateway' => $gateway,
-                    'status'  => self::STATUS_SUCCESS,
-                    'result'  => $this->logisticsGatewayManager->gateway($gateway)->query($trackingNumber, $company),
-                ];
-            } catch (\Throwable $e) {
-                $results[$gateway] = [
-                    'gateway'   => $gateway,
-                    'status'    => self::STATUS_FAILURE,
-                    'exception' => $e,
-                ];
+            if ($this->logisticsGatewayManager->hasDefaultGateway() && $gateway !== $this->logisticsGatewayManager->getDefaultGateway()) {
+                continue;
             }
 
-            if ($this->logisticsGatewayManager->hasDefaultGateway() && $gateway === $this->logisticsGatewayManager->getDefaultGateway()) {
-                break;
+            try {
+                $results[$gateway] = new Collection([
+                                                        'gateway' => $gateway,
+                                                        'status'  => self::STATUS_SUCCESS,
+                                                        'result'  => $this->logisticsGatewayManager->gateway($gateway)->query($trackingNumber, $company),
+                                                    ]);
+            } catch (\Throwable $e) {
+                $results[$gateway] = new Collection([
+                                                        'gateway'   => $gateway,
+                                                        'status'    => self::STATUS_FAILURE,
+                                                        'exception' => $e,
+                                                    ]);
+                ++$errResults;
             }
         }
 
-        if (empty($results) || \count($results) === \count(\array_column($results, 'exception'))) {
+        if (empty($results) || \count($results) === $errResults) {
             throw new GatewayAvailableException($results);
         }
 

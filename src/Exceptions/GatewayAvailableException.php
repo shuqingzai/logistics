@@ -26,7 +26,7 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
         $this->results    = $results;
         $this->exceptions = \array_column($results, 'exception', 'gateway');
 
-        parent::__construct('The gateways have failed. You can check "\Sqz\Logistics\Interfaces\NoGatewayAvailableInterface" to get the results', $code, $previous);
+        parent::__construct('The gateways have failed. You can check "\Sqz\Logistics\Interfaces\GatewayAvailableInterface" to get the results', $code, $previous);
     }
 
 

@@ -88,7 +88,7 @@ trait HasHttpRequest
         return \array_merge($options, [
             'base_uri'        => \method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
             'timeout'         => \method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
-            'connect_timeout' => \method_exists($this, 'getConnectTimeout') ? $this->getTimeout() : 5.0,
+            'connect_timeout' => \method_exists($this, 'getConnectTimeout') ? $this->getConnectTimeout() : 5.0,
         ]);
     }
 

@@ -14,7 +14,7 @@ namespace Sqz\Logistics;
 
 use RuntimeException;
 use Sqz\Logistics\Exceptions\InvalidArgumentException;
-use Sqz\Logistics\Gateways\Gateway;
+use Sqz\Logistics\Gateways\GatewayAbstract;
 use Sqz\Logistics\Interfaces\GatewayInterface;
 use Sqz\Logistics\Supports\Config;
 
@@ -60,7 +60,7 @@ class LogisticsGatewayManager
     public function __construct(array $config)
     {
         $this->config = new Config($config);
-        empty($config['default']) || $this->setDefaultGateway($this->config->get('default'));
+        $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
     }
 
     /**
@@ -86,7 +86,7 @@ class LogisticsGatewayManager
     {
         $name = $name ?: $this->getDefaultGateway();
 
-        if (!isset($this->gateways[$name])) {
+        if (!isset($this->gateways[$name]) || !($this->gateways[$name] instanceof GatewayInterface)) {
             $this->gateways[$name] = $this->makeGateway($name);
         }
 
@@ -124,11 +124,18 @@ class LogisticsGatewayManager
     }
 
     /**
+     * 设置默认网关
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/30 8:53
+     *
      * @param string $defaultGateway
+     * @return $this
      */
-    public function setDefaultGateway(string $defaultGateway): void
+    public function setDefaultGateway(string $defaultGateway): LogisticsGatewayManager
     {
         $this->defaultGateway = $defaultGateway;
+        return $this;
     }
 
     /**
@@ -187,19 +194,19 @@ class LogisticsGatewayManager
      */
     protected function makeGateway(string $name): GatewayInterface
     {
-        $config = $this->config->get("gateways.{$name}", []);
+        $config = $this->config->get('gateways.' . $name, []);
         if (!isset($config['http'])) {
             $config['http'] = $this->config->get('http', []);
         }
 
-        $config['http']['timeout']         = $config['http']['timeout'] ?: Gateway::DEFAULT_TIMEOUT;
-        $config['http']['connect_timeout'] = $config['http']['timeout'] ?: Gateway::DEFAULT_CONNECT_TIMEOUT;
+        $config['http']['timeout']         = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
+        $config['http']['connect_timeout'] = $config['http']['connect_timeout'] ?: GatewayAbstract::DEFAULT_CONNECT_TIMEOUT;
 
         if (isset($this->customGateway[$name])) {
             $appInstance = $this->callCustomCreator($name, $config);
         }
         else {
-            $className = $this->formatClassName($name);
+            $className = $this->formatGatewayClassName($name);
 
             try {
                 $app         = new \ReflectionClass($className);
@@ -213,6 +220,7 @@ class LogisticsGatewayManager
             throw new InvalidArgumentException(sprintf('Gateway "%s" must implement interface %s.', $name, GatewayInterface::class));
         }
 
+        /** @var GatewayInterface $appInstance */
         return $appInstance;
     }
 
@@ -228,26 +236,26 @@ class LogisticsGatewayManager
      */
     protected function callCustomCreator(string $gateway, array $config = []): GatewayInterface
     {
-        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get("gateways.{$gateway}", []));
+        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.' . $gateway, []));
     }
 
     /**
-     * 格式化服务提供者命名空间 网关
+     * 格式化网关类名称
      *
      * Author ShuQingZai
-     * DateTime 2020/7/7 9:16
+     * DateTime 2020/7/30 8:47
      *
      * @param string $name
      * @return string
      */
-    protected function formatClassName(string $name): string
+    protected function formatGatewayClassName(string $name): string
     {
-        if (class_exists($name)) {
+        if (\class_exists($name)) {
             return $name;
         }
-        $name = preg_replace_callback('/_([a-zA-Z])/', function ($match) {
-            return \strtoupper($match[1]);
-        }, $name);
-        return __NAMESPACE__ . '\\Gateways\\' . \ucfirst($name) . 'Gateway';
+
+        $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
+
+        return __NAMESPACE__ . '\\Gateways\\' . $name . 'Gateway';
     }
 }

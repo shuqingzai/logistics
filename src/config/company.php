@@ -11,7 +11,7 @@
 
 return [
     [
-        'name'    => '顺丰',
+        'name' => '顺丰速运',
         'code' =>
             [
                 'aliyun'    => 'SFEXPRESS',
@@ -21,7 +21,7 @@ return [
             ],
     ],
     [
-        'name'    => '申通',
+        'name' => '申通快递',
         'code' =>
             [
                 'aliyun'    => 'STO',
@@ -31,7 +31,7 @@ return [
             ],
     ],
     [
-        'name'    => '中通',
+        'name' => '中通快递',
         'code' =>
             [
                 'aliyun'    => 'ZTO',
@@ -41,17 +41,17 @@ return [
             ],
     ],
     [
-        'name'    => '中通快运',
+        'name' => '中通快运',
         'code' =>
             [
                 'aliyun'    => 'ZTO56',
                 'juhe'      => 'ztoky',
-                'kuaidi100' => '',
+                'kuaidi100' => 'zhongtongkuaiyun',
                 'kdniao'    => 'ZTO',
             ],
     ],
     [
-        'name'    => '圆通',
+        'name' => '圆通速递',
         'code' =>
             [
                 'aliyun'    => 'YTO',
@@ -61,7 +61,7 @@ return [
             ],
     ],
     [
-        'name'    => '韵达',
+        'name' => '韵达速递',
         'code' =>
             [
                 'aliyun'    => 'YUNDA',
@@ -71,7 +71,7 @@ return [
             ],
     ],
     [
-        'name'    => '天天',
+        'name' => '天天快递',
         'code' =>
             [
                 'aliyun'    => 'TTKDEX',
@@ -81,7 +81,7 @@ return [
             ],
     ],
     [
-        'name'    => 'EMS',
+        'name' => 'EMS',
         'code' =>
             [
                 'aliyun'    => 'EMS',
@@ -91,7 +91,7 @@ return [
             ],
     ],
     [
-        'name'    => 'EMS国际',
+        'name' => 'EMS国际',
         'code' =>
             [
                 'aliyun'    => 'EMS',
@@ -101,16 +101,17 @@ return [
             ],
     ],
     [
-        'name'    => '马来西亚（大包EMS）',
+        'name' => '马来西亚EMS',
         'code' =>
             [
                 'aliyun'    => '',
                 'juhe'      => 'malaysiaems',
                 'kuaidi100' => 'malaysiaems',
+                'kdniao'    => 'IMLXYEMS',
             ],
     ],
     [
-        'name'    => '邮政国内（挂号信）',
+        'name' => '邮政国内标快',
         'code' =>
             [
                 'aliyun'    => '',
@@ -120,7 +121,7 @@ return [
             ],
     ],
     [
-        'name'    => '汇通',
+        'name' => '汇通',
         'code' =>
             [
                 'aliyun'    => '',
@@ -129,9 +130,8 @@ return [
                 'kdniao'    => '',
             ],
     ],
-
     [
-        'name'    => '全峰',
+        'name' => '全峰',
         'code' =>
             [
                 'aliyun'    => 'QFKD',
@@ -140,9 +140,8 @@ return [
                 'kdniao'    => '',
             ],
     ],
-
     [
-        'name'    => '德邦',
+        'name' => '德邦快递',
         'code' =>
             [
                 'aliyun'    => 'DEPPON',
@@ -151,9 +150,8 @@ return [
                 'kdniao'    => 'DBL',
             ],
     ],
-
     [
-        'name'    => '国通',
+        'name' => '国通快递',
         'code' =>
             [
                 'aliyun'    => 'GTO',
@@ -162,9 +160,8 @@ return [
                 'kdniao'    => '',
             ],
     ],
-
     [
-        'name'    => '如风达',
+        'name' => '如风达',
         'code' =>
             [
                 'aliyun'    => 'RFD',
@@ -173,9 +170,8 @@ return [
                 'kdniao'    => 'RFD',
             ],
     ],
-
     [
-        'name'    => '京东',
+        'name' => '京东快递',
         'code' =>
             [
                 'aliyun'    => 'JD',
@@ -184,9 +180,8 @@ return [
                 'kdniao'    => 'JD',
             ],
     ],
-
     [
-        'name'    => '宅急送',
+        'name' => '宅急送',
         'code' =>
             [
                 'aliyun'    => 'ZJS',
@@ -195,9 +190,8 @@ return [
                 'kdniao'    => 'ZJS',
             ],
     ],
-
     [
-        'name'    => 'Fedex',
+        'name' => 'Fedex',
         'code' =>
             [
                 'aliyun'    => 'FEDEXIN',
@@ -206,9 +200,8 @@ return [
                 'kdniao'    => 'FEDEX',
             ],
     ],
-
     [
-        'name'    => 'Fedex国际',
+        'name' => 'Fedex国际',
         'code' =>
             [
                 'aliyun'    => 'FEDEXIN',
@@ -217,9 +210,8 @@ return [
                 'kdniao'    => 'FEDEX_GJ',
             ],
     ],
-
     [
-        'name'    => 'UPS',
+        'name' => 'UPS',
         'code' =>
             [
                 'aliyun'    => 'UPS',
@@ -228,20 +220,28 @@ return [
                 'kdniao'    => 'UPS',
             ],
     ],
-
     [
-        'name'    => '中铁',
+        'name' => '中铁物流',
+        'code' =>
+            [
+                'aliyun'    => '',
+                'juhe'      => '',
+                'kuaidi100' => 'zhongtiewuliu',
+                'kdniao'    => 'ZHWL',
+            ],
+    ],
+    [
+        'name' => '中铁快运',
         'code' =>
             [
                 'aliyun'    => 'CRE',
                 'juhe'      => 'ztky',
-                'kuaidi100' => '',
-                'kdniao'    => 'ZHWL',
+                'kuaidi100' => 'ztky',
+                'kdniao'    => 'ZTKY',
             ],
     ],
-
     [
-        'name'    => '佳吉',
+        'name' => '佳吉快运',
         'code' =>
             [
                 'aliyun'    => 'JIAJI',
@@ -250,9 +250,8 @@ return [
                 'kdniao'    => 'CNEX',
             ],
     ],
-
     [
-        'name'    => '速尔',
+        'name' => '速尔快递',
         'code' =>
             [
                 'aliyun'    => 'SURE',
@@ -261,9 +260,8 @@ return [
                 'kdniao'    => 'SURE',
             ],
     ],
-
     [
-        'name'    => '信丰',
+        'name' => '信丰物流',
         'code' =>
             [
                 'aliyun'    => 'XFEXPRESS',
@@ -272,9 +270,8 @@ return [
                 'kdniao'    => 'XFEX',
             ],
     ],
-
     [
-        'name'    => '优速',
+        'name' => '优速快递',
         'code' =>
             [
                 'aliyun'    => 'UC56',
@@ -283,20 +280,28 @@ return [
                 'kdniao'    => 'UC',
             ],
     ],
-
     [
-        'name'    => '中邮',
+        'name' => '中邮物流',
         'code' =>
             [
                 'aliyun'    => 'ZYWL',
                 'juhe'      => 'zhongyou',
                 'kuaidi100' => 'zhongyouwuliu',
+                'kdniao'    => 'ZYWL',
+            ],
+    ],
+    [
+        'name' => '中邮快递',
+        'code' =>
+            [
+                'aliyun'    => '',
+                'juhe'      => '',
+                'kuaidi100' => 'wondersyd',
                 'kdniao'    => 'ZYKD',
             ],
     ],
-
     [
-        'name'    => '天地华宇',
+        'name' => '天地华宇',
         'code' =>
             [
                 'aliyun'    => 'HOAU',
@@ -305,9 +310,8 @@ return [
                 'kdniao'    => 'HOAU',
             ],
     ],
-
     [
-        'name'    => '安信达',
+        'name' => '安信达',
         'code' =>
             [
                 'aliyun'    => 'ANXINDA',
@@ -316,9 +320,8 @@ return [
                 'kdniao'    => '',
             ],
     ],
-
     [
-        'name'    => '快捷',
+        'name' => '快捷快递',
         'code' =>
             [
                 'aliyun'    => 'FASTEXPRESS',
@@ -327,9 +330,8 @@ return [
                 'kdniao'    => 'DJKJWL',
             ],
     ],
-
     [
-        'name'    => 'AAE全球专递',
+        'name' => 'AAE全球专递',
         'code' =>
             [
                 'aliyun'    => 'AAEWEB',
@@ -338,31 +340,28 @@ return [
                 'kdniao'    => 'AAE',
             ],
     ],
-
     [
-        'name'    => 'DHL国内件',
+        'name' => 'DHL国内件',
         'code' =>
             [
                 'aliyun'    => 'DHL',
                 'juhe'      => 'dhl',
                 'kuaidi100' => 'dhl',
-                'kdniao'    => 'FEDEX',
+                'kdniao'    => 'DHL_C',
             ],
     ],
-
     [
-        'name'    => 'DHL国际件',
+        'name' => 'DHL国际件',
         'code' =>
             [
                 'aliyun'    => 'DHL_EN',
                 'juhe'      => 'dhl',
                 'kuaidi100' => 'dhlen',
-                'kdniao'    => 'FEDEX_GJ',
+                'kdniao'    => 'DHL_GLB',
             ],
     ],
-
     [
-        'name'    => 'DPEX国际',
+        'name' => 'DPEX国际',
         'code' =>
             [
                 'aliyun'    => 'DPEX',
@@ -371,9 +370,8 @@ return [
                 'kdniao'    => 'DPEX',
             ],
     ],
-
     [
-        'name'    => 'D速',
+        'name' => 'D速物流',
         'code' =>
             [
                 'aliyun'    => 'DEXP',
@@ -382,9 +380,8 @@ return [
                 'kdniao'    => 'DSWL',
             ],
     ],
-
     [
-        'name'    => 'FEDEX国内',
+        'name' => 'FEDEX国内',
         'code' =>
             [
                 'aliyun'    => 'FEDEX',
@@ -393,9 +390,8 @@ return [
                 'kdniao'    => 'FEDEX',
             ],
     ],
-
     [
-        'name'    => 'FEDEX国际',
+        'name' => 'FEDEX国际',
         'code' =>
             [
                 'aliyun'    => 'FEDEXIN',
@@ -404,20 +400,18 @@ return [
                 'kdniao'    => 'FEDEX_GJ',
             ],
     ],
-
     [
-        'name'    => 'OCS',
+        'name' => 'OCS',
         'code' =>
             [
                 'aliyun'    => '',
                 'juhe'      => 'ocs',
                 'kuaidi100' => 'ocs',
-                'kdniao'    => '',
+                'kdniao'    => 'OCS',
             ],
     ],
-
     [
-        'name'    => 'TNT',
+        'name' => 'TNT',
         'code' =>
             [
                 'aliyun'    => 'TNT',
@@ -426,20 +420,18 @@ return [
                 'kdniao'    => 'TNT',
             ],
     ],
-
     [
-        'name'    => '中国东方',
+        'name' => 'COE东方快递',
         'code' =>
             [
                 'aliyun'    => 'COE',
                 'juhe'      => 'coe',
                 'kuaidi100' => 'coe',
-                'kdniao'    => '',
+                'kdniao'    => 'COE',
             ],
     ],
-
     [
-        'name'    => '传喜',
+        'name' => '传喜物流',
         'code' =>
             [
                 'aliyun'    => '',
@@ -448,9 +440,8 @@ return [
                 'kdniao'    => 'CXHY',
             ],
     ],
-
     [
-        'name'    => '城市100',
+        'name' => '城市100',
         'code' =>
             [
                 'aliyun'    => 'CITY100',
@@ -459,20 +450,8 @@ return [
                 'kdniao'    => 'CITY100',
             ],
     ],
-
     [
-        'name'    => '城市之星',
-        'code' =>
-            [
-                'aliyun'    => '',
-                'juhe'      => 'cszx',
-                'kuaidi100' => '',
-                'kdniao'    => '',
-            ],
-    ],
-
-    [
-        'name'    => '安捷',
+        'name' => '安捷快递',
         'code' =>
             [
                 'aliyun'    => 'ANJELEX',
@@ -481,9 +460,8 @@ return [
                 'kdniao'    => 'AJ',
             ],
     ],
-
     [
-        'name'    => '百福东方',
+        'name' => '百福东方',
         'code' =>
             [
                 'aliyun'    => 'EES',
@@ -492,9 +470,8 @@ return [
                 'kdniao'    => 'BFDF',
             ],
     ],
-
     [
-        'name'    => '程光',
+        'name' => '程光物流',
         'code' =>
             [
                 'aliyun'    => 'FLYWAYEX',
@@ -503,9 +480,8 @@ return [
                 'kdniao'    => 'CG',
             ],
     ],
-
     [
-        'name'    => '递四方',
+        'name' => '递四方速递',
         'code' =>
             [
                 'aliyun'    => 'D4PX',
@@ -514,31 +490,18 @@ return [
                 'kdniao'    => 'D4PX',
             ],
     ],
-
     [
-        'name'    => '长通',
-        'code' =>
-            [
-                'aliyun'    => '',
-                'juhe'      => 'ctwl',
-                'kuaidi100' => '',
-                'kdniao'    => '',
-            ],
-    ],
-
-    [
-        'name'    => '飞豹',
+        'name' => '飞豹快递',
         'code' =>
             [
                 'aliyun'    => '',
                 'juhe'      => 'feibao',
                 'kuaidi100' => 'feibaokuaidi',
-                'kdniao'    => '',
+                'kdniao'    => 'FBKD',
             ],
     ],
-
     [
-        'name'    => '安能',
+        'name' => '安能物流',
         'code' =>
             [
                 'aliyun'    => 'ANE',
@@ -547,9 +510,8 @@ return [
                 'kdniao'    => 'ANE',
             ],
     ],
-
     [
-        'name'    => '远成',
+        'name' => '远成物流',
         'code' =>
             [
                 'aliyun'    => 'YCGWL',
@@ -559,7 +521,7 @@ return [
             ],
     ],
     [
-        'name'    => '邮政',
+        'name' => '邮政快递包裹',
         'code' =>
             [
                 'aliyun'    => 'CHINAPOST',
@@ -569,7 +531,7 @@ return [
             ],
     ],
     [
-        'name'    => '百世',
+        'name' => '百世快递',
         'code' =>
             [
                 'aliyun'    => 'BSKY',
@@ -579,7 +541,7 @@ return [
             ],
     ],
     [
-        'name'    => '苏宁',
+        'name' => '苏宁物流',
         'code' =>
             [
                 'aliyun'    => 'SUNING',
@@ -589,17 +551,7 @@ return [
             ],
     ],
     [
-        'name'    => '安能',
-        'code' =>
-            [
-                'aliyun'    => 'ANEEX',
-                'juhe'      => 'anneng',
-                'kuaidi100' => 'annengwuliu',
-                'kdniao'    => 'ANE',
-            ],
-    ],
-    [
-        'name'    => '九曳',
+        'name' => '九曳供应链',
         'code' =>
             [
                 'aliyun'    => 'JIUYESCM',
@@ -609,22 +561,22 @@ return [
             ],
     ],
     [
-        'name'    => '亚马逊',
+        'name' => '亚马逊物流',
         'code' =>
             [
                 'aliyun'    => '',
                 'juhe'      => '',
-                'kuaidi100' => '',
+                'kuaidi100' => 'yamaxunwuliu',
                 'kdniao'    => 'AMAZON',
             ],
     ],
     [
-        'name'    => '环球速运',
+        'name' => '环球速运',
         'code' =>
             [
                 'aliyun'    => '',
                 'juhe'      => '',
-                'kuaidi100' => '',
+                'kuaidi100' => 'huanqiu',
                 'kdniao'    => 'HQSY',
             ],
     ],
