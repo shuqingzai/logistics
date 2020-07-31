@@ -5,6 +5,7 @@ namespace Sqz\Logistics\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use Sqz\Logistics\Gateways\GatewayAbstract;
 
 /**
  * Trait HasHttpRequest.

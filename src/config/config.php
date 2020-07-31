@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 return [
     // http请求配置 参考 https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html
     'http'              => [

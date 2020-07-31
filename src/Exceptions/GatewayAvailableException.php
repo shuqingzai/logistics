@@ -1,13 +1,6 @@
 <?php
-/**
- * 无可用网关异常
- *
- * FileName NoGatewayAvailableException.php
- * Created By PhpStorm.
- * Author ShuQingZai
- * DateTime 2020/7/29 14:48
- */
 declare(strict_types=1);
+
 
 namespace Sqz\Logistics\Exceptions;
 
@@ -15,6 +8,16 @@ namespace Sqz\Logistics\Exceptions;
 use Sqz\Logistics\Interfaces\GatewayAvailableInterface;
 use Throwable;
 
+
+/**
+ * 网关可用异常
+ *
+ * Class GatewayAvailableException
+ * Author ShuQingZai
+ * DateTime 2020/7/31 16:07
+ *
+ * @package Sqz\Logistics\Exceptions
+ */
 class GatewayAvailableException extends Exception implements GatewayAvailableInterface
 {
     protected $results = [];

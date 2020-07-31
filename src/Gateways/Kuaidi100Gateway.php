@@ -1,33 +1,44 @@
 <?php
-/**
- * 快递100
- *
- * FileName Kuaidi100.php
- * Created By PhpStorm.
- * Author ShuQingZai
- * DateTime 2020/7/28 16:57
- */
 declare(strict_types=1);
+
 
 namespace Sqz\Logistics\Gateways;
 
 
 use Psr\Http\Message\ResponseInterface;
-use Sqz\Logistics\Exceptions\GatewayAvailableException;
 use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\InvalidArgumentException;
-use Sqz\Logistics\Supports\Collection;
 
 
+/**
+ * 快递100
+ *
+ * Class Kuaidi100Gateway
+ * Author ShuQingZai
+ * DateTime 2020/7/31 16:08
+ *
+ * @package Sqz\Logistics\Gateways
+ */
 class Kuaidi100Gateway extends GatewayAbstract
 {
     const API_QUERY_URL = 'https://poll.kuaidi100.com/poll/query.do';
 
     const API_COM_CODE_URL = 'http://www.kuaidi100.com/autonumber/auto';
 
-    public function query(string $trackingNumber, ?string $company = null)
+    /**
+     * 查询物流信息
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 17:55
+     *
+     * @param string      $trackingNumber 快递单号
+     * @param string|null $company        快递公司名称
+     * @return array
+     */
+    public function query(string $trackingNumber, ?string $company = null): array
     {
-        $companyCode = \is_null($company) ? $this->getCompanyCode($trackingNumber) : $this->getCompanyCodeByFile($company);
+        $companyCode = \is_null($company) ? $this->getCompanyCode($trackingNumber) : $this->getCompanyCodeByCompanyList($company);
+
         if (empty($companyCode)) {
             throw new InvalidArgumentException('Error obtaining courier code');
         }
@@ -49,7 +60,6 @@ class Kuaidi100Gateway extends GatewayAbstract
         return $this->formatData($response);
     }
 
-
     /**
      * 请求API获取快递公司code
      *
@@ -58,7 +68,7 @@ class Kuaidi100Gateway extends GatewayAbstract
      *
      * @param string $trackingNumber 快递单号
      * @return string
-     * @throws GatewayAvailableException
+     * @throws GatewayErrorException
      */
     protected function getCompanyCode(string $trackingNumber): string
     {
@@ -74,8 +84,9 @@ class Kuaidi100Gateway extends GatewayAbstract
         }
 
         if (empty($response)) {
-            throw new GatewayAvailableException((array)$response, 404);
+            throw new GatewayErrorException('Could not find this company code.', 404);
         }
+        
         return \strtolower(\current($response)['comCode']);
     }
 
@@ -93,6 +104,59 @@ class Kuaidi100Gateway extends GatewayAbstract
     protected function generateSign(array $params, string $appKey, string $appSecret)
     {
         return \strtoupper(\md5(\json_encode($params) . $appKey . $appSecret));
+    }
+
+    /**
+     * 格式化响应数据
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/30 14:22
+     *
+     * @param ResponseInterface|array|string $response 原始响应数据
+     * @return array
+     * @throws GatewayErrorException
+     */
+    protected function formatData($response): array
+    {
+        if (!\is_array($response)) {
+            $response = \json_decode($response, true);
+        }
+
+        if (empty($response)) {
+            throw new GatewayErrorException('Failed to find data.', 404);
+        }
+
+        $list = [];
+        if (\intval($response['status'] ?? 500) === 200) {
+            $code           = 1;
+            $originalStatus = $response['state'];
+            $companyCode    = $response['com'];
+            $trackingNumber = $response['nu'];
+            foreach ($response['data'] as $item) {
+                $list[] = [
+                    'context'   => $item['context'],
+                    'date_time' => $item['ftime'],
+                ];
+            }
+        }
+        else {
+            $code           = 0;
+            $originalStatus = 99;
+            $companyCode    = '';
+            $trackingNumber = '';
+        }
+
+        $status = $this->formatStatus($originalStatus);
+        return [
+            'code'            => $code,
+            'status'          => $status,
+            'status_name'     => $this->getStatusName($status),
+            'company_code'    => $companyCode,
+            'company_name'    => $this->companyName ?: $companyCode,
+            'tracking_number' => $trackingNumber,
+            'list'            => $list,
+            'original_data'   => \json_encode($response)
+        ];
     }
 
     /**
@@ -140,58 +204,5 @@ class Kuaidi100Gateway extends GatewayAbstract
                 break;
         }
         return $status;
-    }
-
-    /**
-     * 格式化响应数据
-     *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 14:22
-     *
-     * @param ResponseInterface|array|string $response 原始响应数据
-     * @return array
-     * @throws GatewayAvailableException
-     */
-    protected function formatData($response): array
-    {
-        if (!\is_array($response)) {
-            $response = \json_decode($response, true);
-        }
-
-        if (empty($response)) {
-            throw new GatewayAvailableException((array)$response, 404);
-        }
-
-        $list = [];
-        if (\intval($response['status'] ?? 500) === 200) {
-            $code           = 1;
-            $originalStatus = $response['state'];
-            $companyCode    = $response['com'];
-            $trackingNumber = $response['nu'];
-            foreach ($response['data'] as $item) {
-                $list[] = [
-                    'context'   => $item['context'],
-                    'date_time' => $item['ftime'],
-                ];
-            }
-        }
-        else {
-            $code           = 0;
-            $originalStatus = 99;
-            $companyCode    = '';
-            $trackingNumber = '';
-        }
-
-        $status = $this->formatStatus($originalStatus);
-        return [
-            'code'            => $code,
-            'status'          => $status,
-            'status_name'     => $this->getStatusName($status),
-            'company_code'    => $companyCode,
-            'company_name'    => $this->companyName ?: $companyCode,
-            'tracking_number' => $trackingNumber,
-            'list'            => $list,
-            'original_data'   => \json_encode($response)
-        ];
     }
 }

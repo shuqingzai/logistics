@@ -1,13 +1,6 @@
 <?php
-/**
- * 网关服务基类
- *
- * FileName Gateway.php
- * Created By PhpStorm.
- * Author ShuQingZai
- * DateTime 2020/7/29 14:01
- */
 declare(strict_types=1);
+
 
 namespace Sqz\Logistics\Gateways;
 
@@ -19,6 +12,16 @@ use Sqz\Logistics\Interfaces\GatewayInterface;
 use Sqz\Logistics\Supports\Config;
 use Sqz\Logistics\Traits\HasHttpRequest;
 
+
+/**
+ * 网关基类
+ *
+ * Class GatewayAbstract
+ * Author ShuQingZai
+ * DateTime 2020/7/31 16:08
+ *
+ * @package Sqz\Logistics\Gateways
+ */
 abstract class GatewayAbstract implements GatewayInterface
 {
     use HasHttpRequest;
@@ -259,6 +262,36 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
+     * 获取物流公司信息
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 17:29
+     *
+     * @return array
+     */
+    public function getCompanyList(): array
+    {
+        return $this->companyList;
+    }
+
+    /**
+     * 设置物流公司信息
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 17:26
+     *
+     * @param array $companyList
+     * @return GatewayInterface
+     */
+    public function setCompanyList(array $companyList): GatewayInterface
+    {
+        $this->companyList = $companyList;
+
+        return $this;
+    }
+
+
+    /**
      * 获取物流状态描述名称
      *
      * Author ShuQingZai
@@ -273,22 +306,7 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 初始化物流公司列表
-     *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 17:14
-     *
-     * @return GatewayAbstract
-     */
-    protected function initDefaultCompanyList(): GatewayAbstract
-    {
-        $this->companyList = include __DIR__ . '/../config/company.php';
-
-        return $this;
-    }
-
-    /**
-     * 根据快递公司名称从配置文件中
+     * 根据快递公司名称从配置文件中获取code
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 8:40
@@ -297,10 +315,8 @@ abstract class GatewayAbstract implements GatewayInterface
      * @return string
      * @throws InvalidArgumentException
      */
-    protected function getCompanyCodeByFile(string $company): string
+    protected function getCompanyCodeByCompanyList(string $company): string
     {
-        empty($this->companyList) && $this->initDefaultCompanyList();
-
         $index = \array_search($company, \array_column($this->companyList, 'name'));
         if (false !== $index) {
             $this->companyName = $this->companyList[$index]['name'];

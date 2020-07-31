@@ -1,15 +1,18 @@
 <?php
-/**
- *
- *
- * FileName NoGatewayAvailableInterface.php
- * Created By PhpStorm.
- * Author ShuQingZai
- * DateTime 2020/7/29 14:57
- */
+declare(strict_types=1);
+
 
 namespace Sqz\Logistics\Interfaces;
 
+/**
+ * 网关可用异常接口
+ *
+ * Interface GatewayAvailableInterface
+ * Author ShuQingZai
+ * DateTime 2020/7/31 16:09
+ *
+ * @package Sqz\Logistics\Interfaces
+ */
 interface GatewayAvailableInterface
 {
     /**

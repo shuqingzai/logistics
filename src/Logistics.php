@@ -1,22 +1,27 @@
 <?php
-/**
- * 物流API
- *
- * FileName Logistics.php
- * Created By PhpStorm.
- * Author ShuQingZai
- * DateTime 2020/7/29 11:14
- */
 declare(strict_types=1);
+
 
 namespace Sqz\Logistics;
 
 
 use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\GatewayAvailableException;
+use Sqz\Logistics\Interfaces\LogisticsInterface;
 use Sqz\Logistics\Supports\Collection;
 
-class Logistics
+/**
+ * 物流API
+ *
+ *
+ * Class Logistics
+ * Author ShuQingZai
+ * DateTime 2020/7/31 17:37
+ *
+ * @mixin LogisticsGatewayManager
+ * @package Sqz\Logistics
+ */
+class Logistics implements LogisticsInterface
 {
     const STATUS_SUCCESS = 'success';
     const STATUS_FAILURE = 'failure';
@@ -31,13 +36,22 @@ class Logistics
     protected $logisticsGatewayManager;
 
     /**
+     * 物流公司列表
+     *
+     * @var array $companyList
+     * DateTime 2020/7/31 16:11
+     * @package Sqz\Logistics\Logistics
+     */
+    protected $companyList = [];
+
+    /**
      * Logistics constructor.
      *
      * @param array $config
      */
     public function __construct(array $config)
     {
-        $this->logisticsGatewayManager = new LogisticsGatewayManager($config);
+        $this->logisticsGatewayManager = new LogisticsGatewayManager($config, $this);
     }
 
 
@@ -73,11 +87,17 @@ class Logistics
                 continue;
             }
 
+            if (\in_array($gateway, $this->logisticsGatewayManager->getDisableGateways())) {
+                continue;
+            }
+
             try {
                 $results[$gateway] = new Collection([
                                                         'gateway' => $gateway,
                                                         'status'  => self::STATUS_SUCCESS,
-                                                        'result'  => $this->logisticsGatewayManager->gateway($gateway)->query($trackingNumber, $company),
+                                                        'result'  => $this->logisticsGatewayManager->gateway($gateway)
+                                                                                                   ->setCompanyList($this->getCompanyList())
+                                                                                                   ->query($trackingNumber, $company),
                                                     ]);
             } catch (\Throwable $e) {
                 $results[$gateway] = new Collection([
@@ -96,5 +116,49 @@ class Logistics
         return $results;
     }
 
+    /**
+     * 设置物流公司信息
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 16:18
+     *
+     * @return array
+     */
+    public function getCompanyList(): array
+    {
+        empty($this->companyList) && $this->companyList = include __DIR__ . '/config/company.php';
 
+        return $this->companyList;
+    }
+
+    /**
+     * 获取物流公司信息
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 16:18
+     *
+     * @param array $companyList
+     * @return LogisticsInterface
+     */
+    public function setCompanyList(array $companyList): LogisticsInterface
+    {
+        $this->companyList = $companyList;
+
+        return $this;
+    }
+
+    /**
+     * 魔术方法
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/31 17:32
+     *
+     * @param string $name
+     * @param mixed  $avg
+     * @return mixed
+     */
+    public function __call(string $name, $avg)
+    {
+        return call_user_func_array([$this->logisticsGatewayManager, $name], $avg);
+    }
 }
