@@ -9,9 +9,18 @@ use RuntimeException;
 use Sqz\Logistics\Exceptions\InvalidArgumentException;
 use Sqz\Logistics\Gateways\GatewayAbstract;
 use Sqz\Logistics\Interfaces\GatewayInterface;
-use Sqz\Logistics\Interfaces\LogisticsInterface;
 use Sqz\Logistics\Supports\Config;
 
+
+/**
+ * 物流网关管理
+ *
+ * Class LogisticsGatewayManager
+ * Author ShuQingZai
+ * DateTime 2020/8/1 18:41
+ *
+ * @package Sqz\Logistics
+ */
 class LogisticsGatewayManager
 {
 
@@ -61,19 +70,18 @@ class LogisticsGatewayManager
     protected $disableGateways = [];
 
     /**
-     *
-     * @var LogisticsInterface $logistics
-     * DateTime 2020/7/31 17:04
+     * @var Logistics $logistics
+     * DateTime 2020/8/1 19:12
      * @package Sqz\Logistics\LogisticsGatewayManager
      */
     protected $logistics;
 
-    public function __construct(array $config, LogisticsInterface $logistics)
+    public function __construct(array $config, Logistics $logistics)
     {
-        $this->config    = new Config($config);
-        $this->logistics = $logistics;
+        $this->config = new Config($config);
         $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
         $this->config->has('disable') && $this->setDisableGateways($this->config->get('disable'));
+        $this->logistics = $logistics;
     }
 
     /**
@@ -121,6 +129,7 @@ class LogisticsGatewayManager
         if (!$this->hasDefaultGateway()) {
             throw new RuntimeException('No default gateway configured.');
         }
+
         return $this->defaultGateway;
     }
 
@@ -144,13 +153,13 @@ class LogisticsGatewayManager
      * DateTime 2020/7/30 8:53
      *
      * @param string $defaultGateway
-     * @return LogisticsGatewayManager
+     * @return Logistics
      */
-    public function setDefaultGateway(string $defaultGateway): LogisticsGatewayManager
+    public function setDefaultGateway(string $defaultGateway): Logistics
     {
         $this->defaultGateway = $defaultGateway;
 
-        return $this;
+        return $this->logistics;
     }
 
     /**
@@ -171,13 +180,13 @@ class LogisticsGatewayManager
 
     /**
      * @param array $disableGateways
-     * @return LogisticsGatewayManager
+     * @return Logistics
      */
-    public function setDisableGateways(array $disableGateways): LogisticsGatewayManager
+    public function setDisableGateways(array $disableGateways): Logistics
     {
         $this->disableGateways = $disableGateways;
 
-        return $this;
+        return $this->logistics;
     }
 
 
@@ -188,9 +197,9 @@ class LogisticsGatewayManager
      * DateTime 2020/7/7 11:35
      *
      * @param string|null $name 指定服务标识注销
-     * @return LogisticsGatewayManager
+     * @return Logistics
      */
-    public function unregisterAppInstance(?string $name = null): LogisticsGatewayManager
+    public function unregisterAppInstance(?string $name = null): Logistics
     {
         if (\is_null($name)) {
             $this->gateways = [];
@@ -199,7 +208,7 @@ class LogisticsGatewayManager
             unset($this->gateways[$name]);
         }
 
-        return $this;
+        return $this->logistics;
     }
 
     /**
@@ -210,13 +219,13 @@ class LogisticsGatewayManager
      *
      * @param string   $name
      * @param \Closure $closure
-     * @return LogisticsGatewayManager
+     * @return Logistics
      */
-    public function registerCustomGateway(string $name, \Closure $closure): LogisticsGatewayManager
+    public function registerCustomGateway(string $name, \Closure $closure): Logistics
     {
         $this->customGateway[$name] = $closure;
 
-        return $this;
+        return $this->logistics;
     }
 
     /**

@@ -9,6 +9,7 @@ use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\GatewayAvailableException;
 use Sqz\Logistics\Interfaces\LogisticsInterface;
 use Sqz\Logistics\Supports\Collection;
+use Sqz\Logistics\Supports\ParseContentToArray;
 
 /**
  * 物流API
@@ -18,7 +19,7 @@ use Sqz\Logistics\Supports\Collection;
  * Author ShuQingZai
  * DateTime 2020/7/31 17:37
  *
- * @mixin LogisticsGatewayManager
+ * @mixin  LogisticsGatewayManager
  * @package Sqz\Logistics
  */
 class Logistics implements LogisticsInterface
@@ -48,10 +49,12 @@ class Logistics implements LogisticsInterface
      * Logistics constructor.
      *
      * @param array $config
+     * @throws Exceptions\InvalidArgumentException
      */
     public function __construct(array $config)
     {
         $this->logisticsGatewayManager = new LogisticsGatewayManager($config, $this);
+        $this->companyList             = $this->initCompanyFiles();
     }
 
 
@@ -117,7 +120,7 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 设置物流公司信息
+     * 获取物流公司信息
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
@@ -126,13 +129,13 @@ class Logistics implements LogisticsInterface
      */
     public function getCompanyList(): array
     {
-        empty($this->companyList) && $this->companyList = include __DIR__ . '/config/company.php';
+        empty($this->companyList) && $this->companyList = $this->getDefaultCompanyList();
 
         return $this->companyList;
     }
 
     /**
-     * 获取物流公司信息
+     * 设置物流公司信息
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
@@ -142,9 +145,49 @@ class Logistics implements LogisticsInterface
      */
     public function setCompanyList(array $companyList): LogisticsInterface
     {
-        $this->companyList = $companyList;
+        $this->companyList = \array_values(\array_column(\array_merge($this->getCompanyList(), $companyList), null, 'name'));
 
         return $this;
+    }
+
+    /**
+     * 获取默认的物流公司列表
+     *
+     * Author ShuQingZai
+     * DateTime 2020/8/1 18:12
+     *
+     * @return array
+     */
+    public function getDefaultCompanyList(): array
+    {
+        return include __DIR__ . '/config/company.php';
+    }
+
+    /**
+     * 初始化配置文件的物流公司列表
+     *
+     * Author ShuQingZai
+     * DateTime 2020/8/1 18:15
+     *
+     * @return array
+     * @throws Exceptions\InvalidArgumentException
+     */
+    protected function initCompanyFiles()
+    {
+        $companyFiles     = $this->getConfig()->get('company_file', []);
+        $companyFiles     = \is_array($companyFiles) ? $companyFiles : \explode(',', $companyFiles);
+        $companyFilesList = [];
+        foreach ($companyFiles as $file) {
+            if (\is_file((string)$file)) {
+                $type             = \pathinfo($file, PATHINFO_EXTENSION);
+                $fileArr          = ParseContentToArray::parseContent($file, $type);
+                $companyFilesList = \array_merge($companyFilesList, $fileArr);
+            }
+        }
+
+        return \array_values($companyFilesList ?
+                                 \array_column(\array_merge($this->getCompanyList(), $companyFilesList), null, 'name')
+                                 : $this->getCompanyList());
     }
 
     /**

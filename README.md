@@ -43,8 +43,8 @@ $config = [
     // 网关配置
     'gateways'     => [
         'kuaidi100' => [
-            'app_key'    => 'VFPrytxx7930', // appKey
-            'app_secret' => '5D22D64CBB3F58EABB1ECC1095DF1A4F', // customer
+            'app_key'    => '12124564561', // appKey
+            'app_secret' => 'sahdkjsadjashuidhasdbak', // customer
             // 可以单独为指定的网关配置 http 请求信息，未设置则读取全局
             'http'         => [
                 'timeout'         => 15.0,
@@ -56,7 +56,9 @@ $config = [
             'app_secret' => '', // eBusinessID
         ],
         // ...
-    ]
+    ],
+    // 格外配置物流公司列表
+    'company_file' => []
 ];
 $logistics = new Logistics($config);
 $res       = $logistics->query('123456789','顺丰速运');
@@ -69,6 +71,91 @@ $logistics->query('123456789'); // 仅用快递单号查询，不清楚快递公
 $logistics->query('123456789','顺丰速运'); // 锁定快递公司，更快速的查询
 ```
 
+### 物流公司
+
+如果传入物流公司名称，可以快速锁定物流单号，无需额外的`http`请求第三方网关获取，减少开销
+
+默认提供 `/vendor/shuqingzai/logistics/src/config/company.php` 物流公司列表文件，已包含一些常用的物流公司与物流公司`code` ,允许用户自定义配置文件或动态设置
+
+**文件配置物流公司**
+
+在 `congfig.company_file` 设置文件路径，支持配置多个文件，并且支持两种格式 ( `php`、`json` )
+
+```php
+// 格外配置物流公司列表文件
+'company_file' => [__DIR__ . '/company1.php',__DIR__ . '/company1.json']
+```
+
+每种文件格式示例
+
+**php**
+
+`php` 格式文件是直接使用 `include` 关键字引入，所以必须使用`return` 关键字返回数组 
+
+`company1.php` 内容 
+
+```php
+return [
+    [
+        'name' => '顺丰速运',
+        'code' =>
+            [
+                'aliyun'    => 'SFEXPRESS',
+                'juhe'      => 'sf',
+                'kuaidi100' => 'shunfeng',
+                'kdniao'    => 'SF',
+            ],
+    ],
+    [
+        'name' => '申通快递',
+        'code' =>
+            [
+                'aliyun'    => 'STO',
+                'juhe'      => 'sto',
+                'kuaidi100' => 'shentong',
+                'kdniao'    => 'STO',
+            ],
+    ]
+];
+```
+
+**json**
+
+`company1.json` 文件内容
+
+```json
+[
+    {
+        "name": "顺丰速运1",
+        "code": {
+            "aliyun": "SFEXPRESS",
+            "juhe": "sf",
+            "kuaidi100": "shunfeng",
+            "kdniao": "SF"
+        }
+    },
+    {
+        "name": "申通快递2",
+        "code": {
+            "aliyun": "STO",
+            "juhe": "sto",
+            "kuaidi100": "shentong",
+            "kdniao": "STO"
+        }
+    }
+]
+```
+
+**动态配置物流公司**
+
+当然，你也可以动态直接传入二维数组而不需要额外创建物流公司配置文件
+
+```php
+$logistics->setCompanyList(array $companyList);
+```
+
+**注意：不管你是直接传入数据还是配置文件，都需要保持与上述示例中的数据结构一致**
+
 ### 可用网关
 
 一般情况下，可用网关是在配置文件中读取，你也可以直接传递第三个参数指定网关
@@ -80,7 +167,27 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 
 **注意：如果传递的网关不可用，会抛出 `\Sqz\Logistics\Exceptions\GatewayErrorException` 异常**
 
-## 返回结果
+### 禁用网关
+
+如果你配置的网关很多，你也可以临时禁用某些网关，只需要在 `config.disable` 配置需要禁用的网关即可
+
+```php
+ // 禁用网关，默认情况下会循环调用  gateways 下的所有可用网关，你可以添加网关名称到此禁用
+ 'disable'      => [],
+```
+
+### 默认网关
+
+当你只是使用一个网关时，可以直接配置默认网关即可
+
+**注意：如果配置了默认网关，那么其他网关都会失效，只有默认网关会有效**
+
+```php
+ // 默认配置，如果设置此项，就只会使用该网关请求，否则会循环 gateways 调用请求不同的网关
+ 'default'      => 'kuaidi100',
+```
+
+## 响应结果
 
 统一返回一个二维数组，数组中的值是每个网关的结果集，它是 `\Sqz\Logistics\Supports\Collection` 结果集对象
 
@@ -141,8 +248,8 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 |  9   |       超时件        |
 |  10  |      派送失败       |
 
-
 ## 参考
+
 * [PHP 扩展包实战教程 - 从入门到发布](https://laravel-china.org/courses/creating-package)
 * [overtrue/easy-sms](https://github.com/overtrue/easy-sms)
 

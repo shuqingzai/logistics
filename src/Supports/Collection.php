@@ -182,6 +182,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
      * Whether the collection is empty
      *
      * @param bool
+     * @return bool
      */
     public function isEmpty()
     {
@@ -192,6 +193,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
      * Get the specified column from the collection
      *
      * @param array
+     * @return Collection
      */
     public function column($columnKey, $indexKey = null)
     {

@@ -41,10 +41,9 @@ interface LogisticsInterface
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
      *
-     * @param array $companyList
-     * @return LogisticsInterface
+     * @return array
      */
-    public function setCompanyList(array $companyList): LogisticsInterface;
+    public function getCompanyList(): array;
 
     /**
      * 设置物流公司信息
@@ -52,7 +51,18 @@ interface LogisticsInterface
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
      *
+     * @param array $companyList
+     * @return LogisticsInterface
+     */
+    public function setCompanyList(array $companyList): LogisticsInterface;
+
+    /**
+     * 获取默认的物流公司列表
+     *
+     * Author ShuQingZai
+     * DateTime 2020/8/1 18:12
+     *
      * @return array
      */
-    public function getCompanyList(): array;
+    public function getDefaultCompanyList(): array;
 }
