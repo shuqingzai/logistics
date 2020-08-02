@@ -1,13 +1,12 @@
-language: php  # 我们代码所需要运行的环境平台
+language: php  # 运行语言
 
-php:  # 需要测试的版本
+os: linux # 测试系统
+php:  # 需要测试的php版本
   - 7.2
   - 7.3
   - 7.4
-  - 8.0
 
 dist: trusty   # 系统版本
-sudo: false  # 是否使用 sudo 模式
 
 # 执行前需要运行的命令
 install: travis_retry composer install --no-interaction --prefer-source
