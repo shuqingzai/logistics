@@ -3,7 +3,15 @@
 <p align="center"> A logistics library.</p>
 
 [![Build Status](https://travis-ci.org/shuqingzai/logistics.svg?branch=master)](https://travis-ci.org/shuqingzai/logistics)
-![StyleCI build status](https://github.styleci.io/repos/283132448/shield) 
+![StyleCI build status](https://github.styleci.io/repos/283132448/shield)
+[![Latest Stable Version](https://poser.pugx.org/overbeck/logistics/v)](//packagist.org/packages/overbeck/logistics)
+[![Total Downloads](https://poser.pugx.org/overbeck/logistics/downloads)](//packagist.org/packages/overbeck/logistics)
+[![Latest Unstable Version](https://poser.pugx.org/overbeck/logistics/v/unstable)](//packagist.org/packages/overbeck/logistics)
+[![License](https://poser.pugx.org/overbeck/logistics/license)](//packagist.org/packages/overbeck/logistics)
+[![composer.lock](https://poser.pugx.org/overbeck/logistics/composerlock)](//packagist.org/packages/overbeck/logistics)
+[![.gitattributes](https://poser.pugx.org/overbeck/logistics/gitattributes)](//packagist.org/packages/overbeck/logistics)
+
+
 ## 简介
 
 **用于快捷查询快递物流信息，返回统一格式，无需担心字段格式不一致导致的各种问题**
