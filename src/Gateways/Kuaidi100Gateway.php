@@ -2,12 +2,12 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Gateways;
+namespace Overbeck\Logistics\Gateways;
 
 
 use Psr\Http\Message\ResponseInterface;
-use Sqz\Logistics\Exceptions\GatewayErrorException;
-use Sqz\Logistics\Exceptions\InvalidArgumentException;
+use Overbeck\Logistics\Exceptions\GatewayErrorException;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
 
 
 /**
@@ -17,7 +17,7 @@ use Sqz\Logistics\Exceptions\InvalidArgumentException;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:08
  *
- * @package Sqz\Logistics\Gateways
+ * @package Overbeck\Logistics\Gateways
  */
 class Kuaidi100Gateway extends GatewayAbstract
 {

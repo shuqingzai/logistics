@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Sqz\Logistics\Traits;
+namespace Overbeck\Logistics\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;

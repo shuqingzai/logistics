@@ -2,15 +2,14 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics;
+namespace Overbeck\Logistics;
 
 
-use Sqz\Logistics\Exceptions\GatewayErrorException;
-use Sqz\Logistics\Exceptions\GatewayAvailableException;
-use Sqz\Logistics\Exceptions\InvalidArgumentException;
-use Sqz\Logistics\Interfaces\LogisticsInterface;
-use Sqz\Logistics\Supports\Collection;
-use Sqz\Logistics\Supports\ParseContentToArray;
+use Overbeck\Logistics\Exceptions\GatewayAvailableException;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
+use Overbeck\Logistics\Interfaces\LogisticsInterface;
+use Overbeck\Logistics\Supports\Collection;
+use Overbeck\Logistics\Supports\ParseContentToArray;
 
 /**
  * 物流API
@@ -21,7 +20,7 @@ use Sqz\Logistics\Supports\ParseContentToArray;
  * DateTime 2020/7/31 17:37
  *
  * @mixin  LogisticsGatewayManager
- * @package Sqz\Logistics
+ * @package Overbeck\Logistics
  */
 class Logistics implements LogisticsInterface
 {
@@ -33,7 +32,7 @@ class Logistics implements LogisticsInterface
      *
      * @var LogisticsGatewayManager $logisticsGatewayManager
      * DateTime 2020/7/29 11:29
-     * @package Sqz\Logistics\Logistics
+     * @package Overbeck\Logistics\Logistics
      */
     protected $logisticsGatewayManager;
 
@@ -42,7 +41,7 @@ class Logistics implements LogisticsInterface
      *
      * @var array $companyList
      * DateTime 2020/7/31 16:11
-     * @package Sqz\Logistics\Logistics
+     * @package Overbeck\Logistics\Logistics
      */
     protected $companyList = [];
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Interfaces;
+namespace Overbeck\Logistics\Interfaces;
 
 use ArrayAccess;
 

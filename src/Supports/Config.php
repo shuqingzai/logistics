@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Sqz\Logistics\Supports;
+namespace Overbeck\Logistics\Supports;
 
 
 class Config extends Collection

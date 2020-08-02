@@ -1,5 +1,5 @@
 {
-    "name": "shuqingzai\/logistics",
+    "name": "overbeck\/logistics",
     "description": "a logistics library",
     "license": "MIT",
     "authors": [
@@ -21,12 +21,22 @@
     },
     "autoload": {
         "psr-4": {
-            "Sqz\\Logistics\\": "src/"
+            "Overbeck\\Logistics\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sqz\\Logistics\\Tests\\": "tests/"
+            "Overbeck\\Logistics\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Overbeck\\Logistics\\Laravel\\ServiceProvider"
+            ],
+            "aliases": {
+                "Logistics": "Overbeck\\Logistics\\Laravel\\Logistics"
+            }
         }
     }
 }

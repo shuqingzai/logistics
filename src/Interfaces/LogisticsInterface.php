@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Interfaces;
+namespace Overbeck\Logistics\Interfaces;
 
-use Sqz\Logistics\Exceptions\GatewayAvailableException;
-use Sqz\Logistics\Exceptions\GatewayErrorException;
-use Sqz\Logistics\Logistics;
+use Overbeck\Logistics\Exceptions\GatewayAvailableException;
+use Overbeck\Logistics\Exceptions\GatewayErrorException;
+use Overbeck\Logistics\Logistics;
 
 
 /**
@@ -16,7 +16,7 @@ use Sqz\Logistics\Logistics;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:09
  *
- * @package Sqz\Logistics\Interfaces
+ * @package Overbeck\Logistics\Interfaces
  */
 interface LogisticsInterface
 {

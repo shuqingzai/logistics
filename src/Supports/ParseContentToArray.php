@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Sqz\Logistics\Supports;
+namespace Overbeck\Logistics\Supports;
 
 
-use Sqz\Logistics\Exceptions\InvalidArgumentException;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
 
 /**
  * 解析内容为数组并返回
@@ -13,7 +13,7 @@ use Sqz\Logistics\Exceptions\InvalidArgumentException;
  * Author ShuQingZai
  * DateTime 2020/8/1 16:34
  *
- * @package Sqz\Logistics\Supports
+ * @package Overbeck\Logistics\Supports
  */
 class ParseContentToArray
 {

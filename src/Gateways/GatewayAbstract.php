@@ -2,16 +2,16 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Gateways;
+namespace Overbeck\Logistics\Gateways;
 
 
 use Psr\Http\Message\ResponseInterface;
-use Sqz\Logistics\Exceptions\GatewayErrorException;
-use Sqz\Logistics\Exceptions\InvalidArgumentException;
-use Sqz\Logistics\Interfaces\GatewayInterface;
-use Sqz\Logistics\Supports\Arr;
-use Sqz\Logistics\Supports\Config;
-use Sqz\Logistics\Traits\HasHttpRequest;
+use Overbeck\Logistics\Exceptions\GatewayErrorException;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
+use Overbeck\Logistics\Interfaces\GatewayInterface;
+use Overbeck\Logistics\Supports\Arr;
+use Overbeck\Logistics\Supports\Config;
+use Overbeck\Logistics\Traits\HasHttpRequest;
 
 
 /**
@@ -21,7 +21,7 @@ use Sqz\Logistics\Traits\HasHttpRequest;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:08
  *
- * @package Sqz\Logistics\Gateways
+ * @package Overbeck\Logistics\Gateways
  */
 abstract class GatewayAbstract implements GatewayInterface
 {
@@ -72,7 +72,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var Config $config
      * DateTime 2020/7/29 15:17
-     * @package Sqz\Logistics\Gateways\Gateway
+     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $config;
 
@@ -81,7 +81,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var array $httpOptions
      * DateTime 2020/7/29 15:20
-     * @package Sqz\Logistics\Gateways\Gateway
+     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $httpOptions;
 
@@ -90,7 +90,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var  $timeout
      * DateTime 2020/7/29 15:49
-     * @package Sqz\Logistics\Gateways\Gateway
+     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $timeout;
 
@@ -99,7 +99,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var  $connectTimeout
      * DateTime 2020/7/29 15:53
-     * @package Sqz\Logistics\Gateways\Gateway
+     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $connectTimeout;
 
@@ -108,7 +108,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var string $companyName
      * DateTime 2020/7/30 15:27
-     * @package Sqz\Logistics\Gateways\GatewayAbstract
+     * @package Overbeck\Logistics\Gateways\GatewayAbstract
      */
     protected $companyName = '';
 
@@ -117,7 +117,7 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @var array $companyList
      * DateTime 2020/7/30 17:11
-     * @package Sqz\Logistics\Gateways\GatewayAbstract
+     * @package Overbeck\Logistics\Gateways\GatewayAbstract
      */
     protected $companyList = [];
 

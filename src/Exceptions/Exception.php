@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Exceptions;
+namespace Overbeck\Logistics\Exceptions;
 
 
 /**
@@ -12,7 +12,7 @@ namespace Sqz\Logistics\Exceptions;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:07
  *
- * @package Sqz\Logistics\Exceptions
+ * @package Overbeck\Logistics\Exceptions
  */
 class Exception extends \Exception
 {

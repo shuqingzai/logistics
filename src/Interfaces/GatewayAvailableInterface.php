@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Interfaces;
+namespace Overbeck\Logistics\Interfaces;
 
 /**
  * 网关可用异常接口
@@ -11,7 +11,7 @@ namespace Sqz\Logistics\Interfaces;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:09
  *
- * @package Sqz\Logistics\Interfaces
+ * @package Overbeck\Logistics\Interfaces
  */
 interface GatewayAvailableInterface
 {

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Sqz\Logistics\Supports;
+namespace Overbeck\Logistics\Supports;
 
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
 use Serializable;
-use Sqz\Logistics\Interfaces\ArrayableInterface;
+use Overbeck\Logistics\Interfaces\ArrayableInterface;
 
 /**
  * Class Collection.
@@ -48,7 +48,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
      * Return specific items.
      *
      * @param array $keys
-     * @return \Sqz\Logistics\Supports\Collection
+     * @return \Overbeck\Logistics\Supports\Collection
      */
     public function only(array $keys)
     {

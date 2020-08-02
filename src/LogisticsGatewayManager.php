@@ -2,14 +2,14 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics;
+namespace Overbeck\Logistics;
 
 
 use RuntimeException;
-use Sqz\Logistics\Exceptions\InvalidArgumentException;
-use Sqz\Logistics\Gateways\GatewayAbstract;
-use Sqz\Logistics\Interfaces\GatewayInterface;
-use Sqz\Logistics\Supports\Config;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
+use Overbeck\Logistics\Gateways\GatewayAbstract;
+use Overbeck\Logistics\Interfaces\GatewayInterface;
+use Overbeck\Logistics\Supports\Config;
 
 
 /**
@@ -19,7 +19,7 @@ use Sqz\Logistics\Supports\Config;
  * Author ShuQingZai
  * DateTime 2020/8/1 18:41
  *
- * @package Sqz\Logistics
+ * @package Overbeck\Logistics
  */
 class LogisticsGatewayManager
 {
@@ -29,7 +29,7 @@ class LogisticsGatewayManager
      *
      * @var Config $config
      * DateTime 2020/7/29 9:41
-     * @package Sqz\Logistics\Logistics
+     * @package Overbeck\Logistics\Logistics
      */
     protected $config;
 
@@ -38,7 +38,7 @@ class LogisticsGatewayManager
      *
      * @var string $defaultGateway
      * DateTime 2020/7/29 9:57
-     * @package Sqz\Logistics\Logistics
+     * @package Overbeck\Logistics\Logistics
      */
     protected $defaultGateway;
 
@@ -47,7 +47,7 @@ class LogisticsGatewayManager
      *
      * @var array $gateways
      * DateTime 2020/7/28 16:47
-     * @package Sqz\Logistics\Factory
+     * @package Overbeck\Logistics\Factory
      */
     protected $gateways = [];
 
@@ -56,7 +56,7 @@ class LogisticsGatewayManager
      *
      * @var array $customGateway
      * DateTime 2020/7/29 14:11
-     * @package Sqz\Logistics\LogisticsGatewayManager
+     * @package Overbeck\Logistics\LogisticsGatewayManager
      */
     protected $customGateway = [];
 
@@ -65,14 +65,14 @@ class LogisticsGatewayManager
      *
      * @var array $disableGateways
      * DateTime 2020/7/31 10:01
-     * @package Sqz\Logistics\LogisticsGatewayManager
+     * @package Overbeck\Logistics\LogisticsGatewayManager
      */
     protected $disableGateways = [];
 
     /**
      * @var Logistics $logistics
      * DateTime 2020/8/1 19:12
-     * @package Sqz\Logistics\LogisticsGatewayManager
+     * @package Overbeck\Logistics\LogisticsGatewayManager
      */
     protected $logistics;
 

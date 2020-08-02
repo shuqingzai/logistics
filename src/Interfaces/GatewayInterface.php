@@ -2,10 +2,8 @@
 declare(strict_types=1);
 
 
-namespace Sqz\Logistics\Interfaces;
+namespace Overbeck\Logistics\Interfaces;
 
-
-use Sqz\Logistics\Gateways\GatewayAbstract;
 
 /**
  * 网关接口
@@ -14,7 +12,7 @@ use Sqz\Logistics\Gateways\GatewayAbstract;
  * Author ShuQingZai
  * DateTime 2020/7/31 16:09
  *
- * @package Sqz\Logistics\Interfaces
+ * @package Overbeck\Logistics\Interfaces
  */
 interface GatewayInterface
 {

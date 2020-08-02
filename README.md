@@ -28,24 +28,38 @@ $ composer require shuqingzai/logistics -vvv
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-use Sqz\Logistics\Logistics;
+use Overbeck\Logistics\Logistics;
 
 $config = [
-    // 全局 http 请求配置 参考 https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html
+    /*
+     * 全局 http 
+     * 请求配置 参考 https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html
+     */
     'http'         => [
         'timeout'         => 5.0,
         'connect_timeout' => 5.0
     ],
-    // 默认配置，如果设置此项，就只会使用该网关请求，否则会循环 gateways 调用请求不同的网关
+
+    /*
+     * 默认网关配置，如果设置此项，则只会使用该网关请求，否则会循环 gateways 调用请求不同的网关
+     */
     'default'      => '',
-    // 禁用网关，默认情况下会循环调用  gateways 下的所有可用网关，你可以添加网关名称到此禁用
+    
+    /*
+     * 禁用网关，默认情况下会循环调用  gateways 下的所有可用网关，你可以添加网关名称到此禁用
+     */
     'disable'      => [],
-    // 网关配置
+    
+    /*
+     * 网关配置
+     */
     'gateways'     => [
         'kuaidi100' => [
             'key'      => '12124564561', // key
             'customer' => 'sahdkjsadjashuidhasdbak', // customer
-            // 可以单独为指定的网关配置 http 请求信息，未设置则读取全局
+            /*
+             * 可以单独为指定的网关配置 http 请求信息，未设置则读取全局
+             */
             'http'         => [
                 'timeout'         => 15.0,
                 'connect_timeout' => 15.0
@@ -57,7 +71,9 @@ $config = [
         ],
         // ...
     ],
-    // 格外配置物流公司列表
+    /*
+     * 格外配置物流公司列表
+     */
     'company_file' => []
 ];
 $logistics = new Logistics($config);
@@ -181,7 +197,7 @@ $logistics->query('123456789','顺丰速运', 'kuaidi100'); // 指定单个网�
 $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 ```
 
-**注意：如果传递的网关不可用，会抛出 `\Sqz\Logistics\Exceptions\InvalidArgumentException` 异常**
+**注意：如果传递的网关不可用，会抛出 `\Overbeck\Logistics\Exceptions\InvalidArgumentException` 异常**
 
 ### 禁用网关
 
@@ -205,7 +221,7 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 
 ## 响应结果
 
-统一返回一个二维数组，数组中的值是每个网关的结果集，它是 `\Sqz\Logistics\Supports\Collection` 结果集对象
+统一返回一个二维数组，数组中的值是每个网关的结果集，它是 `\Overbeck\Logistics\Supports\Collection` 结果集对象
 
 ```php
  [
@@ -240,7 +256,7 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
     [
       "gateway" => "kdniao"
       "status" => "failure"
-      "exception" => \Sqz\Logistics\Exceptions\Exceptions // 错误响应对象
+      "exception" => \Overbeck\Logistics\Exceptions\Exceptions // 错误响应对象
     ]
   }
      // ...
@@ -268,15 +284,62 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 
 系统定义三个异常类
 
-`\Sqz\Logistics\Exceptions\InvalidArgumentException` 用于处理参数错误异常
+`\Overbeck\Logistics\Exceptions\InvalidArgumentException` 用于处理参数错误异常
 
-`\Sqz\Logistics\Exceptions\GatewayErrorException` 用于处理请求网关响应数据错误
+`\Overbeck\Logistics\Exceptions\GatewayErrorException` 用于处理请求网关响应数据错误
 
-`\Sqz\Logistics\Exceptions\GatewayAvailableException` 当所有可用网关都不能使用时，抛出该异常
+`\Overbeck\Logistics\Exceptions\GatewayAvailableException` 当所有可用网关都不能使用时，抛出该异常
+
+## Laravel 应用
+
+1. 在 `config/app.php` 注册 **ServiceProvider** 和 **Facade** ( `Laravel 5.5 +` 无需手动注册)
+
+```php
+'providers' => [
+    // ...
+    Overbeck\Logistics\Laravel\ServiceProvider::class,
+],
+'aliases' => [
+    // ...
+    'Logistics' => Overbeck\Logistics\Laravel\Logistics::class,
+],
+```
+
+2. 创建配置文件：
+
+```shell
+php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvider"
+```
+
+3. 修改应用根目录下的 `config/logistics.php` 中对应的参数即可。
+
+4. 门面类是 `Overbeck\Logistics\Laravel\Logistics`
+
+   示例
+
+   ```php
+   <?php
+   
+   namespace App\Http\Controllers;
+   
+   use Illuminate\Http\Request;
+   use Overbeck\Logistics\Laravel\Logistics;
+   
+   class LogisticsController extends Controller
+   {
+       public function query(Request $request)
+       {
+           dd(Logistics::query($request->route('code'), $request->input('company')));
+       }
+   }
+   ```
+
+   
+
 
 ## 参考
 
-* [PHP 扩展包实战教程 - 从入门到发布](https://laravel-china.org/courses/creating-package)
+* [PHP 扩展包实战教程 - 从入门到发布](https://learnku.com/courses/creating-package)
 * [overtrue/easy-sms](https://github.com/overtrue/easy-sms)
 
 ## 最后
