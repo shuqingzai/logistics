@@ -1,18 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics\Exceptions;
 
-
 /**
- * 网关发生错误异常
+ * 网关发生错误异常.
  *
  * Class GatewayErrorException
  * Author ShuQingZai
  * DateTime 2020/7/31 16:08
- *
- * @package Overbeck\Logistics\Exceptions
  */
 class GatewayErrorException extends Exception
 {
@@ -25,9 +31,6 @@ class GatewayErrorException extends Exception
         parent::__construct($message, $code);
     }
 
-    /**
-     * @return array
-     */
     public function getRaw(): array
     {
         return $this->raw;

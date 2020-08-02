@@ -1,9 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics\Gateways;
-
 
 use Psr\Http\Message\ResponseInterface;
 use Overbeck\Logistics\Exceptions\GatewayErrorException;
@@ -13,15 +21,12 @@ use Overbeck\Logistics\Supports\Arr;
 use Overbeck\Logistics\Supports\Config;
 use Overbeck\Logistics\Traits\HasHttpRequest;
 
-
 /**
- * 网关基类
+ * 网关基类.
  *
  * Class GatewayAbstract
  * Author ShuQingZai
  * DateTime 2020/7/31 16:08
- *
- * @package Overbeck\Logistics\Gateways
  */
 abstract class GatewayAbstract implements GatewayInterface
 {
@@ -54,96 +59,88 @@ abstract class GatewayAbstract implements GatewayInterface
     const LOGISTICS_DELIVERY_FAILED = 10;
 
     const LOGISTICS_DESCRIPTION = [
-        self::LOGISTICS_ERROR           => '快递查询异常',
-        self::LOGISTICS_TAKING          => '快递收件(揽件)',
-        self::LOGISTICS_IN_TRANSIT      => '运输中',
-        self::LOGISTICS_DELIVERING      => '派件中',
-        self::LOGISTICS_SIGNED          => '已签收',
-        self::LOGISTICS_PROBLEM         => '疑难件',
-        self::LOGISTICS_RETURN_RECEIPT  => '退件签收',
-        self::LOGISTICS_REJECTED        => '拒签',
-        self::LOGISTICS_SEND_RETURN     => '退回',
-        self::LOGISTICS_TIMEOUT         => '超时件',
+        self::LOGISTICS_ERROR => '快递查询异常',
+        self::LOGISTICS_TAKING => '快递收件(揽件)',
+        self::LOGISTICS_IN_TRANSIT => '运输中',
+        self::LOGISTICS_DELIVERING => '派件中',
+        self::LOGISTICS_SIGNED => '已签收',
+        self::LOGISTICS_PROBLEM => '疑难件',
+        self::LOGISTICS_RETURN_RECEIPT => '退件签收',
+        self::LOGISTICS_REJECTED => '拒签',
+        self::LOGISTICS_SEND_RETURN => '退回',
+        self::LOGISTICS_TIMEOUT => '超时件',
         self::LOGISTICS_DELIVERY_FAILED => '派送失败',
     ];
 
     /**
-     * 配置
+     * 配置.
      *
-     * @var Config $config
-     * DateTime 2020/7/29 15:17
-     * @package Overbeck\Logistics\Gateways\Gateway
+     * @var Config
+     *             DateTime 2020/7/29 15:17
      */
     protected $config;
 
     /**
-     * guzzleHttp配置信息
+     * guzzleHttp配置信息.
      *
-     * @var array $httpOptions
-     * DateTime 2020/7/29 15:20
-     * @package Overbeck\Logistics\Gateways\Gateway
+     * @var array
+     *            DateTime 2020/7/29 15:20
      */
     protected $httpOptions;
 
     /**
-     * 请求超时时间
+     * 请求超时时间.
      *
-     * @var  $timeout
+     * @var
      * DateTime 2020/7/29 15:49
-     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $timeout;
 
     /**
-     * 响应超时时间
+     * 响应超时时间.
      *
-     * @var  $connectTimeout
+     * @var
      * DateTime 2020/7/29 15:53
-     * @package Overbeck\Logistics\Gateways\Gateway
      */
     protected $connectTimeout;
 
     /**
-     * 物流公司名称
+     * 物流公司名称.
      *
-     * @var string $companyName
-     * DateTime 2020/7/30 15:27
-     * @package Overbeck\Logistics\Gateways\GatewayAbstract
+     * @var string
+     *             DateTime 2020/7/30 15:27
      */
     protected $companyName = '';
 
     /**
-     * 物流公司列表
+     * 物流公司列表.
      *
-     * @var array $companyList
-     * DateTime 2020/7/30 17:11
-     * @package Overbeck\Logistics\Gateways\GatewayAbstract
+     * @var array
+     *            DateTime 2020/7/30 17:11
      */
     protected $companyList = [];
 
     /**
-     * 格式化响应数据
+     * 格式化响应数据.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 14:22
      *
      * @param ResponseInterface|array|string $response 原始响应数据
-     * @return array
+     *
      * @throws GatewayErrorException
      */
     abstract protected function formatData($response): array;
 
     /**
-     * 统一格式化物流状态code
+     * 统一格式化物流状态code.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 11:28
      *
      * @param int|string $originalStatus 请求响应中返回的状态
-     * @return int
      */
     abstract protected function formatStatus($originalStatus): int;
-
 
     public function __construct(array $config)
     {
@@ -151,9 +148,6 @@ abstract class GatewayAbstract implements GatewayInterface
              ->setHttpOptions($this->config->get('http', []));
     }
 
-    /**
-     * @return Config
-     */
     public function getConfig(): Config
     {
         return $this->config;
@@ -161,6 +155,7 @@ abstract class GatewayAbstract implements GatewayInterface
 
     /**
      * @param array|Config $config
+     *
      * @return GatewayAbstract
      */
     public function setConfig($config)
@@ -170,24 +165,18 @@ abstract class GatewayAbstract implements GatewayInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getHttpOptions(): array
     {
         return $this->httpOptions;
     }
 
-    /**
-     * @return array
-     */
     public function getGuzzleOptions(): array
     {
         return $this->getHttpOptions();
     }
 
     /**
-     * 获取请求超时时间
+     * 获取请求超时时间.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 16:05
@@ -200,12 +189,11 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 设置请求超时时间
+     * 设置请求超时时间.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 16:05
      *
-     * @param float $timeout
      * @return $this
      */
     public function setTimeout(float $timeout)
@@ -216,7 +204,7 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 获取响应超时时间
+     * 获取响应超时时间.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 16:06
@@ -229,12 +217,11 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 设置响应超时时间
+     * 设置响应超时时间.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 16:03
      *
-     * @param float $connectTimeout
      * @return $this
      */
     public function setConnectTimeout(float $connectTimeout)
@@ -244,9 +231,7 @@ abstract class GatewayAbstract implements GatewayInterface
         return $this;
     }
 
-
     /**
-     * @param array $httpOptions
      * @return GatewayAbstract
      */
     public function setHttpOptions(array $httpOptions)
@@ -258,16 +243,14 @@ abstract class GatewayAbstract implements GatewayInterface
 
     public function getGatewayName(): string
     {
-        return \strtolower(\str_replace([__NAMESPACE__ . '\\', 'Gateway'], '', \get_class($this)));
+        return \strtolower(\str_replace([__NAMESPACE__.'\\', 'Gateway'], '', \get_class($this)));
     }
 
     /**
-     * 获取物流公司信息
+     * 获取物流公司信息.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 17:29
-     *
-     * @return array
      */
     public function getCompanyList(): array
     {
@@ -275,13 +258,10 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 设置物流公司信息
+     * 设置物流公司信息.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 17:26
-     *
-     * @param array $companyList
-     * @return GatewayInterface
      */
     public function setCompanyList(array $companyList): GatewayInterface
     {
@@ -290,15 +270,11 @@ abstract class GatewayAbstract implements GatewayInterface
         return $this;
     }
 
-
     /**
-     * 获取物流状态描述名称
+     * 获取物流状态描述名称.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 11:30
-     *
-     * @param int $status
-     * @return string
      */
     protected function getStatusName(int $status): string
     {
@@ -306,13 +282,11 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 根据快递公司名称从配置文件中获取code
+     * 根据快递公司名称从配置文件中获取code.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 8:40
      *
-     * @param string $company
-     * @return string
      * @throws InvalidArgumentException
      */
     protected function getCompanyCodeByCompanyList(string $company): string
@@ -332,13 +306,10 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
-     * 根据物流公司code获取物流公司名称
+     * 根据物流公司code获取物流公司名称.
      *
      * Author ShuQingZai
      * DateTime 2020/8/2 11:01
-     *
-     * @param string $code
-     * @return string
      */
     protected function getCompanyNameByCode(string $code): string
     {
@@ -348,5 +319,4 @@ abstract class GatewayAbstract implements GatewayInterface
 
         return $company[0]['name'] ?? $code;
     }
-
 }
