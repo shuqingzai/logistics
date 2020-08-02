@@ -306,7 +306,7 @@ dump($kd->get('result.list'));
 
 ## Laravel 应用
 
-### 注册服务
+### 1. 注册服务
 
 在 `config/app.php` 注册 **ServiceProvider** 和 **Facade** ( `Laravel 5.5 +` 无需手动注册，可跳过此步)
 
@@ -321,7 +321,7 @@ dump($kd->get('result.list'));
 ],
 ```
 
-### 发布配置文件
+### 2. 发布配置文件
 
 ```php
 php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvider"
@@ -329,7 +329,7 @@ php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvide
 
 修改应用根目录下的 `config/logistics.php` 中对应的参数即可。
 
-### 门面
+### 3. 门面
 
 **门面类是 `Overbeck\Logistics\Laravel\Logistics`**
 
