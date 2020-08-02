@@ -2,6 +2,8 @@
 
 <p align="center"> A logistics library.</p>
 
+[![Build Status](https://travis-ci.org/shuqingzai/logistics.svg?branch=master)](https://travis-ci.org/shuqingzai/logistics)
+![StyleCI build status](https://github.styleci.io/repos/283132448/shield) 
 ## 简介
 
 **用于快捷查询快递物流信息，返回统一格式，无需担心字段格式不一致导致的各种问题**
