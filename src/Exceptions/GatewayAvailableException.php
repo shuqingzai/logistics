@@ -1,22 +1,27 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics\Exceptions;
-
 
 use Overbeck\Logistics\Interfaces\GatewayAvailableInterface;
 use Throwable;
 
-
 /**
- * 网关可用异常
+ * 网关可用异常.
  *
  * Class GatewayAvailableException
  * Author ShuQingZai
  * DateTime 2020/7/31 16:07
- *
- * @package Overbeck\Logistics\Exceptions
  */
 class GatewayAvailableException extends Exception implements GatewayAvailableInterface
 {
@@ -26,24 +31,18 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
 
     public function __construct(array $results = [], $code = 0, Throwable $previous = null)
     {
-        $this->results    = $results;
+        $this->results = $results;
         $this->exceptions = \array_column($results, 'exception', 'gateway');
 
         parent::__construct('The gateways have failed. You can check "\Overbeck\Logistics\Interfaces\GatewayAvailableInterface" to get the results', $code, $previous);
     }
 
-
-    /**
-     * @return array
-     */
     public function getResults(): array
     {
         return $this->results;
     }
 
     /**
-     * @param string $gateway
-     *
      * @return mixed|null
      */
     public function getException(string $gateway)
@@ -51,9 +50,6 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
         return isset($this->exceptions[$gateway]) ? $this->exceptions[$gateway] : null;
     }
 
-    /**
-     * @return array
-     */
     public function getExceptions(): array
     {
         return $this->exceptions;
@@ -66,5 +62,4 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
     {
         return end($this->exceptions);
     }
-
 }

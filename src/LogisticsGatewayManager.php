@@ -1,9 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics;
-
 
 use RuntimeException;
 use Overbeck\Logistics\Exceptions\InvalidArgumentException;
@@ -11,82 +19,69 @@ use Overbeck\Logistics\Gateways\GatewayAbstract;
 use Overbeck\Logistics\Interfaces\GatewayInterface;
 use Overbeck\Logistics\Supports\Config;
 
-
 /**
- * 物流网关管理
+ * 物流网关管理.
  *
  * Class LogisticsGatewayManager
  * Author ShuQingZai
  * DateTime 2020/8/1 18:41
- *
- * @package Overbeck\Logistics
  */
 class LogisticsGatewayManager
 {
-
     /**
-     * 配置
+     * 配置.
      *
-     * @var Config $config
-     * DateTime 2020/7/29 9:41
-     * @package Overbeck\Logistics\Logistics
+     * @var Config
+     *             DateTime 2020/7/29 9:41
      */
     protected $config;
 
     /**
-     * 默认网关
+     * 默认网关.
      *
-     * @var string $defaultGateway
-     * DateTime 2020/7/29 9:57
-     * @package Overbeck\Logistics\Logistics
+     * @var string
+     *             DateTime 2020/7/29 9:57
      */
     protected $defaultGateway;
 
     /**
-     * 网关服务集合
+     * 网关服务集合.
      *
-     * @var array $gateways
-     * DateTime 2020/7/28 16:47
-     * @package Overbeck\Logistics\Factory
+     * @var array
+     *            DateTime 2020/7/28 16:47
      */
     protected $gateways = [];
 
     /**
-     * 自定义网关集合
+     * 自定义网关集合.
      *
-     * @var array $customGateway
-     * DateTime 2020/7/29 14:11
-     * @package Overbeck\Logistics\LogisticsGatewayManager
+     * @var array
+     *            DateTime 2020/7/29 14:11
      */
     protected $customGateway = [];
 
     /**
-     * 禁用的网关
+     * 禁用的网关.
      *
-     * @var array $disableGateways
-     * DateTime 2020/7/31 10:01
-     * @package Overbeck\Logistics\LogisticsGatewayManager
+     * @var array
+     *            DateTime 2020/7/31 10:01
      */
     protected $disableGateways = [];
 
     /**
-     * @var Logistics $logistics
-     * DateTime 2020/8/1 19:12
-     * @package Overbeck\Logistics\LogisticsGatewayManager
+     * @var Logistics
+     *                DateTime 2020/8/1 19:12
      */
     protected $logistics;
 
     public function __construct(array $config, Logistics $logistics)
     {
-        $this->config    = new Config($config);
+        $this->config = new Config($config);
         $this->logistics = $logistics;
         $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
         $this->config->has('disable') && $this->setDisableGateways($this->config->get('disable'));
     }
 
-    /**
-     * @return array
-     */
     public function getGateways(): array
     {
         empty($this->gateways) && $this->config->has('gateways') && $this->gateways = $this->config->get('gateways');
@@ -95,13 +90,11 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 获取网关实例
+     * 获取网关实例.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 11:32
      *
-     * @param string|null $name
-     * @return GatewayInterface
      * @throws InvalidArgumentException
      */
     public function gateway(?string $name = null): GatewayInterface
@@ -116,12 +109,11 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 获取默认网关
+     * 获取默认网关.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 10:59
      *
-     * @return string
      * @throws \RuntimeException 没有配置默认网关
      */
     public function getDefaultGateway(): string
@@ -134,12 +126,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 是否设置默认网关
+     * 是否设置默认网关.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 13:46
-     *
-     * @return bool
      */
     public function hasDefaultGateway(): bool
     {
@@ -147,13 +137,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 设置默认网关
+     * 设置默认网关.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 8:53
-     *
-     * @param string $defaultGateway
-     * @return Logistics
      */
     public function setDefaultGateway(string $defaultGateway): Logistics
     {
@@ -162,26 +149,16 @@ class LogisticsGatewayManager
         return $this->logistics;
     }
 
-    /**
-     * @return Config
-     */
     public function getConfig(): Config
     {
         return $this->config;
     }
 
-    /**
-     * @return array
-     */
     public function getDisableGateways(): array
     {
         return $this->disableGateways;
     }
 
-    /**
-     * @param array $disableGateways
-     * @return Logistics
-     */
     public function setDisableGateways(array $disableGateways): Logistics
     {
         $this->disableGateways = $disableGateways;
@@ -189,22 +166,19 @@ class LogisticsGatewayManager
         return $this->logistics;
     }
 
-
     /**
-     * 注销网关服务实例
+     * 注销网关服务实例.
      *
      * Author ShuQingZai
      * DateTime 2020/7/7 11:35
      *
      * @param string|null $name 指定服务标识注销
-     * @return Logistics
      */
     public function unregisterAppInstance(?string $name = null): Logistics
     {
         if (\is_null($name)) {
             $this->gateways = [];
-        }
-        elseif (isset($this->gateways[$name])) {
+        } elseif (isset($this->gateways[$name])) {
             unset($this->gateways[$name]);
         }
 
@@ -212,14 +186,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 注册自定义网关
+     * 注册自定义网关.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 14:13
-     *
-     * @param string   $name
-     * @param \Closure $closure
-     * @return Logistics
      */
     public function registerCustomGateway(string $name, \Closure $closure): Logistics
     {
@@ -234,28 +204,25 @@ class LogisticsGatewayManager
      * Author ShuQingZai
      * DateTime 2020/7/29 9:12
      *
-     * @param string $name
-     * @return GatewayInterface
      * @throws InvalidArgumentException
      */
     protected function makeGateway(string $name): GatewayInterface
     {
-        $config = $this->config->get('gateways.' . $name, []);
+        $config = $this->config->get('gateways.'.$name, []);
         if (!isset($config['http'])) {
             $config['http'] = $this->config->get('http', []);
         }
 
-        $config['http']['timeout']         = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
+        $config['http']['timeout'] = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
         $config['http']['connect_timeout'] = $config['http']['connect_timeout'] ?: GatewayAbstract::DEFAULT_CONNECT_TIMEOUT;
 
         if (isset($this->customGateway[$name])) {
             $appInstance = $this->callCustomCreator($name, $config);
-        }
-        else {
+        } else {
             $className = $this->formatGatewayClassName($name);
 
             try {
-                $app         = new \ReflectionClass($className);
+                $app = new \ReflectionClass($className);
                 $appInstance = $app->newInstance($config);
             } catch (\ReflectionException $e) {
                 throw new InvalidArgumentException($e->getMessage());
@@ -266,7 +233,7 @@ class LogisticsGatewayManager
             throw new InvalidArgumentException(sprintf('Gateway "%s" must implement interface %s.', $name, GatewayInterface::class));
         }
 
-        /** @var GatewayInterface $appInstance */
+        /* @var GatewayInterface $appInstance */
         return $appInstance;
     }
 
@@ -275,24 +242,17 @@ class LogisticsGatewayManager
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 14:17
-     *
-     * @param string $gateway
-     * @param array  $config
-     * @return GatewayInterface
      */
     protected function callCustomCreator(string $gateway, array $config = []): GatewayInterface
     {
-        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.' . $gateway, []));
+        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.'.$gateway, []));
     }
 
     /**
-     * 格式化网关类名称
+     * 格式化网关类名称.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 8:47
-     *
-     * @param string $name
-     * @return string
      */
     protected function formatGatewayClassName(string $name): string
     {
@@ -302,6 +262,6 @@ class LogisticsGatewayManager
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__ . '\\Gateways\\' . $name . 'Gateway';
+        return __NAMESPACE__.'\\Gateways\\'.$name.'Gateway';
     }
 }

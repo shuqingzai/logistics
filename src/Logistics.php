@@ -1,9 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics;
-
 
 use Overbeck\Logistics\Exceptions\GatewayAvailableException;
 use Overbeck\Logistics\Exceptions\InvalidArgumentException;
@@ -12,15 +20,13 @@ use Overbeck\Logistics\Supports\Collection;
 use Overbeck\Logistics\Supports\ParseContentToArray;
 
 /**
- * 物流API
- *
+ * 物流API.
  *
  * Class Logistics
  * Author ShuQingZai
  * DateTime 2020/7/31 17:37
  *
  * @mixin  LogisticsGatewayManager
- * @package Overbeck\Logistics
  */
 class Logistics implements LogisticsInterface
 {
@@ -28,35 +34,31 @@ class Logistics implements LogisticsInterface
     const STATUS_FAILURE = 'failure';
 
     /**
-     * 物流网关管理
+     * 物流网关管理.
      *
-     * @var LogisticsGatewayManager $logisticsGatewayManager
-     * DateTime 2020/7/29 11:29
-     * @package Overbeck\Logistics\Logistics
+     * @var LogisticsGatewayManager
+     *                              DateTime 2020/7/29 11:29
      */
     protected $logisticsGatewayManager;
 
     /**
-     * 物流公司列表
+     * 物流公司列表.
      *
-     * @var array $companyList
-     * DateTime 2020/7/31 16:11
-     * @package Overbeck\Logistics\Logistics
+     * @var array
+     *            DateTime 2020/7/31 16:11
      */
     protected $companyList = [];
 
     /**
      * Logistics constructor.
      *
-     * @param array $config
      * @throws Exceptions\InvalidArgumentException
      */
     public function __construct(array $config)
     {
         $this->logisticsGatewayManager = new LogisticsGatewayManager($config, $this);
-        $this->companyList             = $this->initCompanyFiles();
+        $this->companyList = $this->initCompanyFiles();
     }
-
 
     /**
      * 查询物流
@@ -67,7 +69,7 @@ class Logistics implements LogisticsInterface
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
      * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
-     * @return array
+     *
      * @throws GatewayAvailableException
      * @throws InvalidArgumentException
      */
@@ -78,12 +80,11 @@ class Logistics implements LogisticsInterface
         }
 
         $gatewaysConfig = $this->logisticsGatewayManager->getGateways();
-        $results        = [];
-        $errResults     = 0;
+        $results = [];
+        $errResults = 0;
         foreach ($gatewaysConfig as $gateway => $config) {
-
             if (!empty($gateways) && !\in_array($gateway, $gateways)) {
-                throw new InvalidArgumentException('The gateway "' . $gateway . '" is unavailable');
+                throw new InvalidArgumentException('The gateway "'.$gateway.'" is unavailable');
             }
 
             if ($this->logisticsGatewayManager->hasDefaultGateway() && $gateway !== $this->logisticsGatewayManager->getDefaultGateway()) {
@@ -97,15 +98,15 @@ class Logistics implements LogisticsInterface
             try {
                 $results[$gateway] = new Collection([
                                                         'gateway' => $gateway,
-                                                        'status'  => self::STATUS_SUCCESS,
-                                                        'result'  => $this->logisticsGatewayManager->gateway($gateway)
+                                                        'status' => self::STATUS_SUCCESS,
+                                                        'result' => $this->logisticsGatewayManager->gateway($gateway)
                                                                                                    ->setCompanyList($this->getCompanyList())
                                                                                                    ->query($logisticNumber, $company),
                                                     ]);
             } catch (\Throwable $e) {
                 $results[$gateway] = new Collection([
-                                                        'gateway'   => $gateway,
-                                                        'status'    => self::STATUS_FAILURE,
+                                                        'gateway' => $gateway,
+                                                        'status' => self::STATUS_FAILURE,
                                                         'exception' => $e,
                                                     ]);
                 ++$errResults;
@@ -120,12 +121,10 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 获取物流公司信息
+     * 获取物流公司信息.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
-     *
-     * @return array
      */
     public function getCompanyList(): array
     {
@@ -135,13 +134,10 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 设置物流公司信息
+     * 设置物流公司信息.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 16:18
-     *
-     * @param array $companyList
-     * @return LogisticsInterface
      */
     public function setCompanyList(array $companyList): LogisticsInterface
     {
@@ -151,36 +147,35 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 获取默认的物流公司列表
+     * 获取默认的物流公司列表.
      *
      * Author ShuQingZai
      * DateTime 2020/8/1 18:12
-     *
-     * @return array
      */
     public function getDefaultCompanyList(): array
     {
-        return include __DIR__ . '/config/company.php';
+        return include __DIR__.'/config/company.php';
     }
 
     /**
-     * 初始化配置文件的物流公司列表
+     * 初始化配置文件的物流公司列表.
      *
      * Author ShuQingZai
      * DateTime 2020/8/1 18:15
      *
      * @return array
+     *
      * @throws Exceptions\InvalidArgumentException
      */
     protected function initCompanyFiles()
     {
-        $companyFiles     = $this->getConfig()->get('company_file', []);
-        $companyFiles     = \is_array($companyFiles) ? $companyFiles : \explode(',', $companyFiles);
+        $companyFiles = $this->getConfig()->get('company_file', []);
+        $companyFiles = \is_array($companyFiles) ? $companyFiles : \explode(',', $companyFiles);
         $companyFilesList = [];
         foreach ($companyFiles as $file) {
-            if (\is_file((string)$file)) {
-                $type             = \pathinfo($file, PATHINFO_EXTENSION);
-                $fileArr          = ParseContentToArray::parseContent($file, $type);
+            if (\is_file((string) $file)) {
+                $type = \pathinfo($file, PATHINFO_EXTENSION);
+                $fileArr = ParseContentToArray::parseContent($file, $type);
                 $companyFilesList = \array_merge($companyFilesList, $fileArr);
             }
         }
@@ -191,13 +186,13 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 魔术方法
+     * 魔术方法.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 17:32
      *
-     * @param string $name
-     * @param mixed  $avg
+     * @param mixed $avg
+     *
      * @return mixed
      */
     public function __call(string $name, $avg)
