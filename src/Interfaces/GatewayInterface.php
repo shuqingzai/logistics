@@ -34,11 +34,11 @@ interface GatewayInterface
      * Author ShuQingZai
      * DateTime 2020/7/31 17:55
      *
-     * @param string      $trackingNumber 快递单号
-     * @param string|null $company        快递公司名称
+     * @param string      $logisticNumber 物流单号
+     * @param string|null $company        物流公司名称
      * @return array
      */
-    public function query(string $trackingNumber, ?string $company = null): array;
+    public function query(string $logisticNumber, ?string $company = null): array;
 
     /**
      * 设置物流公司信息

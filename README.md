@@ -43,8 +43,8 @@ $config = [
     // 网关配置
     'gateways'     => [
         'kuaidi100' => [
-            'app_key'    => '12124564561', // appKey
-            'app_secret' => 'sahdkjsadjashuidhasdbak', // customer
+            'key'      => '12124564561', // key
+            'customer' => 'sahdkjsadjashuidhasdbak', // customer
             // 可以单独为指定的网关配置 http 请求信息，未设置则读取全局
             'http'         => [
                 'timeout'         => 15.0,
@@ -52,8 +52,8 @@ $config = [
             ],
         ],
         'kdniao'    => [
-            'app_key'    => '', // appKey
-            'app_secret' => '', // eBusinessID
+            'appKey'      => '', // appKey
+            'EBusinessID' => '', // EBusinessID
         ],
         // ...
     ],
@@ -77,7 +77,7 @@ $logistics->query('123456789','顺丰速运'); // 锁定快递公司，更快速
 
 默认提供 `/vendor/shuqingzai/logistics/src/config/company.php` 物流公司列表文件，已包含一些常用的物流公司与物流公司`code` ,允许用户自定义配置文件或动态设置
 
-**文件配置物流公司**
+#### 文件配置物流公司
 
 在 `congfig.company_file` 设置文件路径，支持配置多个文件，并且支持两种格式 ( `php`、`json` )
 
@@ -146,7 +146,7 @@ return [
 ]
 ```
 
-**动态配置物流公司**
+#### 动态配置物流公司
 
 当然，你也可以动态直接传入二维数组而不需要额外创建物流公司配置文件
 
@@ -154,7 +154,23 @@ return [
 $logistics->setCompanyList(array $companyList);
 ```
 
-**注意：不管你是直接传入数据还是配置文件，都需要保持与上述示例中的数据结构一致**
+**注意：不管你是直接传入数据还是配置文件，都需要保持与上述示例中的数据结构一致，如果物流公司名称和已有的物流公司名称(`name`)一样，则会替代已有的物流公司**
+
+#### 获取物流公司列表
+
+你可以获取所有的物流公司列表
+
+```php
+$logistics->getCompanyList();
+```
+
+也可以获取默认的物流公司列表
+
+```php
+$logistics->getDefaultCompanyList();
+```
+
+
 
 ### 可用网关
 
@@ -165,7 +181,7 @@ $logistics->query('123456789','顺丰速运', 'kuaidi100'); // 指定单个网�
 $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 ```
 
-**注意：如果传递的网关不可用，会抛出 `\Sqz\Logistics\Exceptions\GatewayErrorException` 异常**
+**注意：如果传递的网关不可用，会抛出 `\Sqz\Logistics\Exceptions\InvalidArgumentException` 异常**
 
 ### 禁用网关
 
@@ -247,6 +263,16 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 |  8   |        退回         |
 |  9   |       超时件        |
 |  10  |      派送失败       |
+
+## 异常处理
+
+系统定义三个异常类
+
+`\Sqz\Logistics\Exceptions\InvalidArgumentException` 用于处理参数错误异常
+
+`\Sqz\Logistics\Exceptions\GatewayErrorException` 用于处理请求网关响应数据错误
+
+`\Sqz\Logistics\Exceptions\GatewayAvailableException` 当所有可用网关都不能使用时，抛出该异常
 
 ## 参考
 

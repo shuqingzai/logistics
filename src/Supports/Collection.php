@@ -110,6 +110,21 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
     }
 
     /**
+     * Run a filter over each of the items.
+     *
+     * @param  callable|null  $callback
+     * @return static
+     */
+    public function filter(callable $callback = null)
+    {
+        if ($callback) {
+            return new static(Arr::where($this->items, $callback));
+        }
+
+        return new static(array_filter($this->items));
+    }
+
+    /**
      * Retrieve the first item.
      *
      * @return mixed
@@ -189,16 +204,6 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
         return $this->count() === 0;
     }
 
-    /**
-     * Get the specified column from the collection
-     *
-     * @param array
-     * @return Collection
-     */
-    public function column($columnKey, $indexKey = null)
-    {
-        return new static(\array_column($this->items, $columnKey, $indexKey));
-    }
 
     /**
      * Build to array.

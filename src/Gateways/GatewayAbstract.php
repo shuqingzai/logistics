@@ -6,9 +6,10 @@ namespace Sqz\Logistics\Gateways;
 
 
 use Psr\Http\Message\ResponseInterface;
-use Sqz\Logistics\Exceptions\GatewayAvailableException;
+use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\InvalidArgumentException;
 use Sqz\Logistics\Interfaces\GatewayInterface;
+use Sqz\Logistics\Supports\Arr;
 use Sqz\Logistics\Supports\Config;
 use Sqz\Logistics\Traits\HasHttpRequest;
 
@@ -120,18 +121,6 @@ abstract class GatewayAbstract implements GatewayInterface
      */
     protected $companyList = [];
 
-
-    /**
-     * 统一格式化物流状态code
-     *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 11:28
-     *
-     * @param int|string $originalStatus 原始返回的状态
-     * @return int
-     */
-    abstract protected function formatStatus($originalStatus): int;
-
     /**
      * 格式化响应数据
      *
@@ -140,9 +129,20 @@ abstract class GatewayAbstract implements GatewayInterface
      *
      * @param ResponseInterface|array|string $response 原始响应数据
      * @return array
-     * @throws GatewayAvailableException
+     * @throws GatewayErrorException
      */
     abstract protected function formatData($response): array;
+
+    /**
+     * 统一格式化物流状态code
+     *
+     * Author ShuQingZai
+     * DateTime 2020/7/30 11:28
+     *
+     * @param int|string $originalStatus 请求响应中返回的状态
+     * @return int
+     */
+    abstract protected function formatStatus($originalStatus): int;
 
 
     public function __construct(array $config)
@@ -317,13 +317,36 @@ abstract class GatewayAbstract implements GatewayInterface
      */
     protected function getCompanyCodeByCompanyList(string $company): string
     {
-        $index = \array_search($company, \array_column($this->companyList, 'name'));
-        if (false !== $index) {
-            $this->companyName = $this->companyList[$index]['name'];
-            return $this->companyList[$index]['code'][$this->getGatewayName()];
+        $companyData = \array_values(Arr::where($this->getCompanyList(), (function ($item) use ($company) {
+            return $item['name'] === $company;
+        })));
+
+        $code = $companyData[0]['code'][$this->getGatewayName()] ?? null;
+        if (!\is_null($code)) {
+            $this->companyName = $company;
+
+            return $code;
         }
 
         throw new InvalidArgumentException('Error obtaining courier code');
+    }
+
+    /**
+     * 根据物流公司code获取物流公司名称
+     *
+     * Author ShuQingZai
+     * DateTime 2020/8/2 11:01
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function getCompanyNameByCode(string $code): string
+    {
+        $company = \array_values(Arr::where($this->getCompanyList(), (function ($item) use ($code) {
+            return \in_array($code, $item['code']);
+        })));
+
+        return $company[0]['name'] ?? $code;
     }
 
 }

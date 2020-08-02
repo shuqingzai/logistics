@@ -7,6 +7,7 @@ namespace Sqz\Logistics;
 
 use Sqz\Logistics\Exceptions\GatewayErrorException;
 use Sqz\Logistics\Exceptions\GatewayAvailableException;
+use Sqz\Logistics\Exceptions\InvalidArgumentException;
 use Sqz\Logistics\Interfaces\LogisticsInterface;
 use Sqz\Logistics\Supports\Collection;
 use Sqz\Logistics\Supports\ParseContentToArray;
@@ -64,14 +65,14 @@ class Logistics implements LogisticsInterface
      * Author ShuQingZai
      * DateTime 2020/7/29 15:12
      *
-     * @param string      $trackingNumber 物流单号
-     * @param string|null $company        物流公司代号
-     * @param array       $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
+     * @param string       $logisticNumber 物流单号
+     * @param string|null  $company        物流公司名称
+     * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
      * @return array
-     * @throws GatewayErrorException
      * @throws GatewayAvailableException
+     * @throws InvalidArgumentException
      */
-    public function query(string $trackingNumber, ?string $company = null, $gateways = []): array
+    public function query(string $logisticNumber, ?string $company = null, $gateways = []): array
     {
         if (\is_string($gateways) && !empty($gateways)) {
             $gateways = \explode(',', $gateways);
@@ -83,7 +84,7 @@ class Logistics implements LogisticsInterface
         foreach ($gatewaysConfig as $gateway => $config) {
 
             if (!empty($gateways) && !\in_array($gateway, $gateways)) {
-                throw new GatewayErrorException('The gateway "' . $gateway . '" is unavailable');
+                throw new InvalidArgumentException('The gateway "' . $gateway . '" is unavailable');
             }
 
             if ($this->logisticsGatewayManager->hasDefaultGateway() && $gateway !== $this->logisticsGatewayManager->getDefaultGateway()) {
@@ -100,7 +101,7 @@ class Logistics implements LogisticsInterface
                                                         'status'  => self::STATUS_SUCCESS,
                                                         'result'  => $this->logisticsGatewayManager->gateway($gateway)
                                                                                                    ->setCompanyList($this->getCompanyList())
-                                                                                                   ->query($trackingNumber, $company),
+                                                                                                   ->query($logisticNumber, $company),
                                                     ]);
             } catch (\Throwable $e) {
                 $results[$gateway] = new Collection([

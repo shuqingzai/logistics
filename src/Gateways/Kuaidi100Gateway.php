@@ -23,7 +23,7 @@ class Kuaidi100Gateway extends GatewayAbstract
 {
     const API_QUERY_URL = 'https://poll.kuaidi100.com/poll/query.do';
 
-    const API_COM_CODE_URL = 'http://www.kuaidi100.com/autonumber/auto';
+    const API_QUERY_CODE_URL = 'http://www.kuaidi100.com/autonumber/auto';
 
     /**
      * 查询物流信息
@@ -31,13 +31,15 @@ class Kuaidi100Gateway extends GatewayAbstract
      * Author ShuQingZai
      * DateTime 2020/7/31 17:55
      *
-     * @param string      $trackingNumber 快递单号
-     * @param string|null $company        快递公司名称
+     * @param string      $logisticNumber 物流单号
+     * @param string|null $company        物流公司名称
      * @return array
+     * @throws GatewayErrorException
+     * @throws InvalidArgumentException
      */
-    public function query(string $trackingNumber, ?string $company = null): array
+    public function query(string $logisticNumber, ?string $company = null): array
     {
-        $companyCode = \is_null($company) ? $this->getCompanyCode($trackingNumber) : $this->getCompanyCodeByCompanyList($company);
+        $companyCode = \is_null($company) ? $this->queryCompanyCode($logisticNumber) : $this->getCompanyCodeByCompanyList($company);
 
         if (empty($companyCode)) {
             throw new InvalidArgumentException('Error obtaining courier code');
@@ -45,14 +47,14 @@ class Kuaidi100Gateway extends GatewayAbstract
 
         $param     = [
             'com'      => $companyCode,
-            'num'      => $trackingNumber,
+            'num'      => $logisticNumber,
             'resultv2' => 1
         ];
-        $appSecret = $this->config->get('app_secret');
+        $appSecret = $this->config->get('customer');
         $params    = [
             'customer' => $appSecret,
             'param'    => \json_encode($param),
-            'sign'     => $this->generateSign($param, $this->config->get('app_key'), $appSecret),
+            'sign'     => $this->generateSign($param, $this->config->get('key'), $appSecret),
         ];
 
         $response = $this->post(self::API_QUERY_URL, $params);
@@ -66,28 +68,32 @@ class Kuaidi100Gateway extends GatewayAbstract
      * Author ShuQingZai
      * DateTime 2020/7/29 17:19
      *
-     * @param string $trackingNumber 快递单号
+     * @param string $logisticNumber 快递单号
      * @return string
      * @throws GatewayErrorException
      */
-    protected function getCompanyCode(string $trackingNumber): string
+    protected function queryCompanyCode(string $logisticNumber): string
     {
         $params = [
-            'key' => $this->config->get('app_key'),
-            'num' => $trackingNumber,
+            'key' => $this->config->get('key'),
+            'num' => $logisticNumber,
         ];
 
-        $response = $this->get(self::API_COM_CODE_URL, $params);
+        $response = $this->get(self::API_QUERY_CODE_URL, $params);
 
         if (!\is_array($response)) {
             $response = \json_decode($response, true);
         }
 
-        if (empty($response)) {
-            throw new GatewayErrorException('Could not find this company code.', 404);
+        $code = \current($response)['comCode'] ?? null;
+        if (empty($response) || \is_null($code)) {
+            throw new GatewayErrorException('Could not find this company code.', 404, (array)$response);
         }
-        
-        return \strtolower(\current($response)['comCode']);
+
+        $code              = \strtolower($code);
+        $this->companyName = $this->getCompanyNameByCode($code);
+
+        return $code;
     }
 
     /**
@@ -123,15 +129,15 @@ class Kuaidi100Gateway extends GatewayAbstract
         }
 
         if (empty($response)) {
-            throw new GatewayErrorException('Failed to find data.', 404);
+            throw new GatewayErrorException('Failed to find data.', 404, (array)$response);
         }
 
         $list = [];
-        if (\intval($response['status'] ?? 500) === 200) {
+        if (200 === \intval($response['status'] ?? 500)) {
             $code           = 1;
             $originalStatus = $response['state'];
             $companyCode    = $response['com'];
-            $trackingNumber = $response['nu'];
+            $logisticNumber = $response['nu'];
             foreach ($response['data'] as $item) {
                 $list[] = [
                     'context'   => $item['context'],
@@ -143,17 +149,18 @@ class Kuaidi100Gateway extends GatewayAbstract
             $code           = 0;
             $originalStatus = 99;
             $companyCode    = '';
-            $trackingNumber = '';
+            $logisticNumber = '';
         }
 
         $status = $this->formatStatus($originalStatus);
+
         return [
             'code'            => $code,
             'status'          => $status,
             'status_name'     => $this->getStatusName($status),
             'company_code'    => $companyCode,
-            'company_name'    => $this->companyName ?: $companyCode,
-            'tracking_number' => $trackingNumber,
+            'company_name'    => $this->companyName,
+            'tracking_number' => $logisticNumber,
             'list'            => $list,
             'original_data'   => \json_encode($response)
         ];
@@ -165,7 +172,7 @@ class Kuaidi100Gateway extends GatewayAbstract
      * Author ShuQingZai
      * DateTime 2020/7/30 11:28
      *
-     * @param int|string $originalStatus 原始返回的状态
+     * @param int|string $originalStatus 请求响应中返回的状态
      * @return int
      */
     protected function formatStatus($originalStatus): int
@@ -203,6 +210,7 @@ class Kuaidi100Gateway extends GatewayAbstract
                 $status = self::LOGISTICS_ERROR;
                 break;
         }
+
         return $status;
     }
 }

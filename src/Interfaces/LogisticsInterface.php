@@ -26,14 +26,14 @@ interface LogisticsInterface
      * Author ShuQingZai
      * DateTime 2020/7/29 15:12
      *
-     * @param string      $trackingNumber 物流单号
-     * @param string|null $company        物流公司代号
-     * @param array       $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
+     * @param string       $logisticNumber 物流单号
+     * @param string|null  $company        物流公司名称
+     * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
      * @return array
      * @throws GatewayErrorException
      * @throws GatewayAvailableException
      */
-    public function query(string $trackingNumber, ?string $company = null, $gateways = []): array;
+    public function query(string $logisticNumber, ?string $company = null, $gateways = []): array;
 
     /**
      * 获取物流公司信息

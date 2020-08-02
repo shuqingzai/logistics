@@ -16,5 +16,20 @@ namespace Sqz\Logistics\Exceptions;
  */
 class GatewayErrorException extends Exception
 {
+    protected $raw = [];
 
+    public function __construct(string $message, int $code = 0, array $raw = [])
+    {
+        $this->raw = $raw;
+
+        parent::__construct($message, $code);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRaw(): array
+    {
+        return $this->raw;
+    }
 }

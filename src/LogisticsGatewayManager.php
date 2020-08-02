@@ -78,10 +78,10 @@ class LogisticsGatewayManager
 
     public function __construct(array $config, Logistics $logistics)
     {
-        $this->config = new Config($config);
+        $this->config    = new Config($config);
+        $this->logistics = $logistics;
         $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
         $this->config->has('disable') && $this->setDisableGateways($this->config->get('disable'));
-        $this->logistics = $logistics;
     }
 
     /**
