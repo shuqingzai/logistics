@@ -248,7 +248,7 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
               "status_name" => "已签收" // 状态名称描述
               "company_code" => "youzhengbk" // 快递公司code
               "company_name" => "邮政快递包裹" // 快递公司名称
-              "tracking_number" => "1178007591424" // 快递单号
+              "tracking_number" => "1178858799304" // 快递单号
               "list" => [
                   // ...
                   [
