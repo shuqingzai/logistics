@@ -38,6 +38,8 @@ $ composer require overbeck/logistics -vvv
 
 ## 使用
 
+### 配置与使用
+
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
@@ -84,6 +86,7 @@ $config = [
         ],
         // ...
     ],
+    
     /*
      * 格外配置物流公司列表
      */
