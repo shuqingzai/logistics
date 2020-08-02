@@ -342,7 +342,7 @@ php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvide
 
 ### 3. 门面
 
-**门面类是 `Overbeck\Logistics\Laravel\Logistics`**
+**门面类是 `\Overbeck\Logistics\Laravel\Logistics`**
 
 示例
 
