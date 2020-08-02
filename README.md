@@ -27,6 +27,7 @@
 
 * PHP >= 7.2
 * json拓展
+* openssl拓展
 * simplexml拓展
 
 ## 安装
