@@ -370,7 +370,7 @@ class LogisticsController extends Controller
 * [overtrue/wechat](https://github.com/overtrue/wechat)
 
 ## 最后
-欢迎提出 issue 和 pull request，也可以留言`929024757@qq.com`
+欢迎提出 [Issue](https://github.com/shuqingzai/logistics/issues) 和 [Pull request](https://github.com/shuqingzai/logistics/pulls)，也可以留言`929024757@qq.com`
 
 ## License
 
