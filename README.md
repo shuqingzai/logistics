@@ -306,7 +306,9 @@ dump($kd->get('result.list'));
 
 ## Laravel 应用
 
-1. 在 `config/app.php` 注册 **ServiceProvider** 和 **Facade** ( `Laravel 5.5 +` 无需手动注册)
+### 注册服务
+
+在 `config/app.php` 注册 **ServiceProvider** 和 **Facade** ( `Laravel 5.5 +` 无需手动注册，可跳过此步)
 
 ```php
 'providers' => [
@@ -319,36 +321,36 @@ dump($kd->get('result.list'));
 ],
 ```
 
-2. 创建配置文件：
+### 发布配置文件
 
-```shell
+```php
 php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvider"
 ```
 
-3. 修改应用根目录下的 `config/logistics.php` 中对应的参数即可。
+修改应用根目录下的 `config/logistics.php` 中对应的参数即可。
 
-4. 门面类是 `Overbeck\Logistics\Laravel\Logistics`
+### 门面
 
-   示例
+**门面类是 `Overbeck\Logistics\Laravel\Logistics`**
 
-   ```php
-   <?php
-   
-   namespace App\Http\Controllers;
-   
-   use Illuminate\Http\Request;
-   use Overbeck\Logistics\Laravel\Logistics;
-   
-   class LogisticsController extends Controller
-   {
-       public function query(Request $request)
-       {
-           dd(Logistics::query($request->route('code'), $request->input('company')));
-       }
-   }
-   ```
+示例
 
-   
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Overbeck\Logistics\Laravel\Logistics;
+
+class LogisticsController extends Controller
+{
+    public function query(Request $request)
+    {
+        dd(Logistics::query($request->route('code'), $request->input('company')));
+    }
+}
+```
 
 
 ## 参考
