@@ -24,34 +24,39 @@ namespace Overbeck\Logistics\Interfaces;
 interface GatewayAvailableInterface
 {
     /**
-     * 获取结果
+     * 获取结果.
      *
      * @return array
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getResults(): array;
 
     /**
-     * 获取单一网关异常
+     * 获取单一网关异常.
      *
      * @param string $gateway
+     *
      * @return mixed
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getException(string $gateway);
 
     /**
-     * 获取所有网关异常
+     * 获取所有网关异常.
      *
      * @return array
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getExceptions(): array;
 
     /**
-     * 获取以后一个异常
+     * 获取以后一个异常.
      *
      * @return mixed
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getLastException();
