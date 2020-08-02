@@ -25,6 +25,7 @@ use Overbeck\Logistics\Traits\HasHttpRequest;
  * 网关基类.
  *
  * Class GatewayAbstract
+ *
  * @author ShuQingZai
  * DateTime 2020/7/31 16:08
  */
@@ -59,16 +60,16 @@ abstract class GatewayAbstract implements GatewayInterface
     const LOGISTICS_DELIVERY_FAILED = 10;
 
     const LOGISTICS_DESCRIPTION = [
-        self::LOGISTICS_ERROR => '快递查询异常',
-        self::LOGISTICS_TAKING => '快递收件(揽件)',
-        self::LOGISTICS_IN_TRANSIT => '运输中',
-        self::LOGISTICS_DELIVERING => '派件中',
-        self::LOGISTICS_SIGNED => '已签收',
-        self::LOGISTICS_PROBLEM => '疑难件',
-        self::LOGISTICS_RETURN_RECEIPT => '退件签收',
-        self::LOGISTICS_REJECTED => '拒签',
-        self::LOGISTICS_SEND_RETURN => '退回',
-        self::LOGISTICS_TIMEOUT => '超时件',
+        self::LOGISTICS_ERROR           => '快递查询异常',
+        self::LOGISTICS_TAKING          => '快递收件(揽件)',
+        self::LOGISTICS_IN_TRANSIT      => '运输中',
+        self::LOGISTICS_DELIVERING      => '派件中',
+        self::LOGISTICS_SIGNED          => '已签收',
+        self::LOGISTICS_PROBLEM         => '疑难件',
+        self::LOGISTICS_RETURN_RECEIPT  => '退件签收',
+        self::LOGISTICS_REJECTED        => '拒签',
+        self::LOGISTICS_SEND_RETURN     => '退回',
+        self::LOGISTICS_TIMEOUT         => '超时件',
         self::LOGISTICS_DELIVERY_FAILED => '派送失败',
     ];
 
@@ -115,22 +116,22 @@ abstract class GatewayAbstract implements GatewayInterface
     protected $companyList = [];
 
     /**
-     * 格式化响应数据.
-     *
-     * @author ShuQingZai
+     * 格式化响应数据
      *
      * @param ResponseInterface|array|string $response 原始响应数据
-     *
+     * @return array
      * @throws GatewayErrorException
+     * @author ShuQingZai<929024757@qq.com>
      */
     abstract protected function formatData($response): array;
 
     /**
      * 统一格式化物流状态code.
      *
-     * @author ShuQingZai
-     *
      * @param int|string $originalStatus 请求响应中返回的状态
+     * @return int
+     * @author ShuQingZai<929024757@qq.com>
+     *
      */
     abstract protected function formatStatus($originalStatus): int;
 
@@ -140,6 +141,12 @@ abstract class GatewayAbstract implements GatewayInterface
              ->setHttpOptions($this->config->get('http', []));
     }
 
+    /**
+     * 获取配置
+     *
+     * @return Config
+     * @author ShuQingZai<929024757@qq.com>
+     */
     public function getConfig(): Config
     {
         return $this->config;
@@ -170,9 +177,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取请求超时时间.
      *
-     * @author ShuQingZai
-     *
      * @return float
+     * @author ShuQingZai<929024757@qq.com>
+     *
      */
     public function getTimeout()
     {
@@ -182,9 +189,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置请求超时时间.
      *
-     * @author ShuQingZai
-     *
-     * @return $this
+     * @param float $timeout
+     * @return GatewayAbstract
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function setTimeout(float $timeout)
     {
@@ -196,9 +203,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取响应超时时间.
      *
-     * @author ShuQingZai
-     *
      * @return float
+     * @author ShuQingZai<929024757@qq.com>
+     *
      */
     public function getConnectTimeout()
     {
@@ -208,9 +215,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置响应超时时间.
      *
-     * @author ShuQingZai
-     *
-     * @return $this
+     * @param float $connectTimeout
+     * @return GatewayAbstract
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function setConnectTimeout(float $connectTimeout)
     {
@@ -220,6 +227,7 @@ abstract class GatewayAbstract implements GatewayInterface
     }
 
     /**
+     * @param array $httpOptions
      * @return GatewayAbstract
      */
     public function setHttpOptions(array $httpOptions)
@@ -229,15 +237,22 @@ abstract class GatewayAbstract implements GatewayInterface
         return $this;
     }
 
+    /**
+     * 获取网关标识
+     *
+     * @return string
+     * @author ShuQingZai<929024757@qq.com>
+     */
     public function getGatewayName(): string
     {
-        return \strtolower(\str_replace([__NAMESPACE__.'\\', 'Gateway'], '', \get_class($this)));
+        return \strtolower(\str_replace([__NAMESPACE__ . '\\', 'Gateway'], '', \get_class($this)));
     }
 
     /**
-     * 获取物流公司信息.
+     * 获取物流公司信息
      *
-     * @author ShuQingZai
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getCompanyList(): array
     {
@@ -247,7 +262,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置物流公司信息.
      *
-     * @author ShuQingZai
+     * @param array $companyList
+     * @return GatewayInterface
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function setCompanyList(array $companyList): GatewayInterface
     {
@@ -259,7 +276,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取物流状态描述名称.
      *
-     * @author ShuQingZai
+     * @param int $status
+     * @return string
+     * @author ShuQingZai<929024757@qq.com>
      */
     protected function getStatusName(int $status): string
     {
@@ -269,9 +288,10 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 根据快递公司名称从配置文件中获取code.
      *
-     * @author ShuQingZai
-     *
+     * @param string $company
+     * @return string
      * @throws InvalidArgumentException
+     * @author ShuQingZai<929024757@qq.com>
      */
     protected function getCompanyCodeByCompanyList(string $company): string
     {
@@ -292,7 +312,9 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 根据物流公司code获取物流公司名称.
      *
-     * @author ShuQingZai
+     * @param string $code
+     * @return string
+     * @author ShuQingZai<929024757@qq.com>
      */
     protected function getCompanyNameByCode(string $code): string
     {

@@ -50,7 +50,8 @@ class Logistics implements LogisticsInterface
     /**
      * Logistics constructor.
      *
-     * @throws Exceptions\InvalidArgumentException
+     * @param array $config
+     * @throws InvalidArgumentException
      */
     public function __construct(array $config)
     {
@@ -59,16 +60,16 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 查询物流
      *
-     * @author ShuQingZai
+     * 查询物流
      *
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
      * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
-     *
+     * @return array
      * @throws GatewayAvailableException
      * @throws InvalidArgumentException
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function query(string $logisticNumber, ?string $company = null, $gateways = []): array
     {
@@ -97,8 +98,8 @@ class Logistics implements LogisticsInterface
                                                         'gateway' => $gateway,
                                                         'status' => self::STATUS_SUCCESS,
                                                         'result' => $this->logisticsGatewayManager->gateway($gateway)
-                                                                                                   ->setCompanyList($this->getCompanyList())
-                                                                                                   ->query($logisticNumber, $company),
+                                                                                                  ->setCompanyList($this->getCompanyList())
+                                                                                                  ->query($logisticNumber, $company),
                                                     ]);
             } catch (\Throwable $e) {
                 $results[$gateway] = new Collection([
@@ -117,10 +118,12 @@ class Logistics implements LogisticsInterface
         return $results;
     }
 
+
     /**
-     * 获取物流公司信息.
+     * 获取物流公司信息
      *
-     * @author ShuQingZai
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getCompanyList(): array
     {
@@ -130,9 +133,11 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 设置物流公司信息.
+     * 设置物流公司信息
      *
-     * @author ShuQingZai
+     * @param array $companyList
+     * @return $this|LogisticsInterface
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function setCompanyList(array $companyList): LogisticsInterface
     {
@@ -142,9 +147,10 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 获取默认的物流公司列表.
+     * 获取默认的物流公司列表
      *
-     * @author ShuQingZai
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getDefaultCompanyList(): array
     {
@@ -152,13 +158,11 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 初始化配置文件的物流公司列表.
-     *
-     * @author ShuQingZai
+     * 初始化配置文件的物流公司列表
      *
      * @return array
-     *
-     * @throws Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
+     * @author ShuQingZai<929024757@qq.com>
      */
     protected function initCompanyFiles()
     {
@@ -179,14 +183,12 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 魔术方法.
-     *
-     * @author ShuQingZai
+     * 魔术方法
      *
      * @param string $name
-     * @param mixed  $avg
-     *
+     * @param        $avg
      * @return mixed
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function __call(string $name, $avg)
     {

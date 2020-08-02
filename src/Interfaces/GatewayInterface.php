@@ -23,33 +23,37 @@ namespace Overbeck\Logistics\Interfaces;
 interface GatewayInterface
 {
     /**
-     * 获取服务标识名称.
+     * 获取服务标识名称
      *
-     * @author ShuQingZai
+     * @return string
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getGatewayName(): string;
 
     /**
-     * 查询物流信息.
-     *
-     * @author ShuQingZai
+     * 查询物流信息
      *
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function query(string $logisticNumber, ?string $company = null): array;
 
     /**
-     * 设置物流公司信息.
+     * 设置物流公司信息
      *
-     * @author ShuQingZai
+     * @param array $companyList
+     * @return GatewayInterface
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function setCompanyList(array $companyList): GatewayInterface;
 
     /**
-     * 获取物流公司信息.
+     * 获取物流公司信息
      *
-     * @author ShuQingZai
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getCompanyList(): array;
 }

@@ -25,9 +25,11 @@ use Overbeck\Logistics\Exceptions\InvalidArgumentException;
 class ParseContentToArray
 {
     /**
-     * 解析php文件.
+     * 解析php文件
      *
-     * @author ShuQingZai
+     * @param string $file
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public static function parsePhp(string $file): array
     {
@@ -35,9 +37,11 @@ class ParseContentToArray
     }
 
     /**
-     * 解析json.
+     * 解析json
      *
-     * @author ShuQingZai
+     * @param string $file
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public static function parseJson(string $file): array
     {
@@ -49,9 +53,11 @@ class ParseContentToArray
     }
 
     /**
-     * 解析xml.
+     * 解析xml
      *
-     * @author ShuQingZai
+     * @param string $file
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public static function parseXml(string $file): array
     {
@@ -66,9 +72,11 @@ class ParseContentToArray
     }
 
     /**
-     * 解析ini.
+     * 解析ini
      *
-     * @author ShuQingZai
+     * @param string $file
+     * @return array
+     * @author ShuQingZai<929024757@qq.com>
      */
     public static function parseIni(string $file): array
     {
@@ -76,14 +84,13 @@ class ParseContentToArray
     }
 
     /**
-     * 解析内容.
-     *
-     * @author ShuQingZai
+     * 解析内容
      *
      * @param string $content 需要解析的内容 可以是一个文件
      * @param string $type    内容类型
-     *
+     * @return array
      * @throws InvalidArgumentException
+     * @author ShuQingZai<929024757@qq.com>
      */
     public static function parseContent(string $content, string $type = 'php'): array
     {
