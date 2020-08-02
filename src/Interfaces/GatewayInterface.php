@@ -17,7 +17,7 @@ namespace Overbeck\Logistics\Interfaces;
  * 网关接口.
  *
  * Interface GatewayInterface
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:09
  */
 interface GatewayInterface
@@ -25,16 +25,14 @@ interface GatewayInterface
     /**
      * 获取服务标识名称.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 17:54
+     * @author ShuQingZai
      */
     public function getGatewayName(): string;
 
     /**
      * 查询物流信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:55
+     * @author ShuQingZai
      *
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
@@ -44,16 +42,14 @@ interface GatewayInterface
     /**
      * 设置物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:26
+     * @author ShuQingZai
      */
     public function setCompanyList(array $companyList): GatewayInterface;
 
     /**
      * 获取物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:28
+     * @author ShuQingZai
      */
     public function getCompanyList(): array;
 }

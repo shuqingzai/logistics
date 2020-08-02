@@ -23,7 +23,7 @@ use Overbeck\Logistics\Supports\ParseContentToArray;
  * 物流API.
  *
  * Class Logistics
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 17:37
  *
  * @mixin  LogisticsGatewayManager
@@ -37,7 +37,6 @@ class Logistics implements LogisticsInterface
      * 物流网关管理.
      *
      * @var LogisticsGatewayManager
-     *                              DateTime 2020/7/29 11:29
      */
     protected $logisticsGatewayManager;
 
@@ -45,7 +44,6 @@ class Logistics implements LogisticsInterface
      * 物流公司列表.
      *
      * @var array
-     *            DateTime 2020/7/31 16:11
      */
     protected $companyList = [];
 
@@ -63,8 +61,7 @@ class Logistics implements LogisticsInterface
     /**
      * 查询物流
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 15:12
+     * @author ShuQingZai
      *
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
@@ -123,8 +120,7 @@ class Logistics implements LogisticsInterface
     /**
      * 获取物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 16:18
+     * @author ShuQingZai
      */
     public function getCompanyList(): array
     {
@@ -136,8 +132,7 @@ class Logistics implements LogisticsInterface
     /**
      * 设置物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 16:18
+     * @author ShuQingZai
      */
     public function setCompanyList(array $companyList): LogisticsInterface
     {
@@ -149,8 +144,7 @@ class Logistics implements LogisticsInterface
     /**
      * 获取默认的物流公司列表.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 18:12
+     * @author ShuQingZai
      */
     public function getDefaultCompanyList(): array
     {
@@ -160,8 +154,7 @@ class Logistics implements LogisticsInterface
     /**
      * 初始化配置文件的物流公司列表.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 18:15
+     * @author ShuQingZai
      *
      * @return array
      *
@@ -188,10 +181,10 @@ class Logistics implements LogisticsInterface
     /**
      * 魔术方法.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:32
+     * @author ShuQingZai
      *
-     * @param mixed $avg
+     * @param string $name
+     * @param mixed  $avg
      *
      * @return mixed
      */

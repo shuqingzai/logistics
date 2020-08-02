@@ -17,7 +17,7 @@ namespace Overbeck\Logistics\Exceptions;
  * 网关发生错误异常.
  *
  * Class GatewayErrorException
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:08
  */
 class GatewayErrorException extends Exception

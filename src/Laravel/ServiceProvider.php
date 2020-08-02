@@ -20,7 +20,7 @@ use Overbeck\Logistics\Logistics;
  * 集成于Laravel.
  *
  * Class ServiceProvider
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/8/2 13:17
  */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider

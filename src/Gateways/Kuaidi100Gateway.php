@@ -21,7 +21,7 @@ use Overbeck\Logistics\Exceptions\InvalidArgumentException;
  * 快递100.
  *
  * Class Kuaidi100Gateway
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:08
  */
 class Kuaidi100Gateway extends GatewayAbstract
@@ -33,8 +33,7 @@ class Kuaidi100Gateway extends GatewayAbstract
     /**
      * 查询物流信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:55
+     * @author ShuQingZai
      *
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
@@ -70,8 +69,7 @@ class Kuaidi100Gateway extends GatewayAbstract
     /**
      * 请求API获取快递公司code.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 17:19
+     * @author ShuQingZai
      *
      * @param string $logisticNumber 快递单号
      *
@@ -104,8 +102,7 @@ class Kuaidi100Gateway extends GatewayAbstract
     /**
      * 签名.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 16:18
+     * @author ShuQingZai
      *
      * @param array  $params    签名参数
      * @param string $appKey    密匙 ( key )
@@ -121,8 +118,7 @@ class Kuaidi100Gateway extends GatewayAbstract
     /**
      * 格式化响应数据.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 14:22
+     * @author ShuQingZai
      *
      * @param ResponseInterface|array|string $response 原始响应数据
      *
@@ -174,8 +170,7 @@ class Kuaidi100Gateway extends GatewayAbstract
     /**
      * 统一格式化物流状态code.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 11:28
+     * @author ShuQingZai
      *
      * @param int|string $originalStatus 请求响应中返回的状态
      */

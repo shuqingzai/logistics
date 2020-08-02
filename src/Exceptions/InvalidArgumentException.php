@@ -17,7 +17,7 @@ namespace Overbeck\Logistics\Exceptions;
  * 参数异常.
  *
  * Class InvalidArgumentException
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:08
  */
 class InvalidArgumentException extends Exception

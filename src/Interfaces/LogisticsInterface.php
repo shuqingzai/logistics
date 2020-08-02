@@ -20,7 +20,7 @@ use Overbeck\Logistics\Exceptions\GatewayErrorException;
  * 物流接口.
  *
  * Interface LogisticsInterface
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:09
  */
 interface LogisticsInterface
@@ -28,8 +28,7 @@ interface LogisticsInterface
     /**
      * 查询物流
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 15:12
+     * @author ShuQingZai
      *
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
@@ -43,24 +42,21 @@ interface LogisticsInterface
     /**
      * 获取物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 16:18
+     * @author ShuQingZai
      */
     public function getCompanyList(): array;
 
     /**
      * 设置物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 16:18
+     * @author ShuQingZai
      */
     public function setCompanyList(array $companyList): LogisticsInterface;
 
     /**
      * 获取默认的物流公司列表.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 18:12
+     * @author ShuQingZai
      */
     public function getDefaultCompanyList(): array;
 }

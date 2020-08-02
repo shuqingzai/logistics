@@ -19,7 +19,7 @@ use Overbeck\Logistics\Exceptions\InvalidArgumentException;
  * 解析内容为数组并返回.
  *
  * Class companyFiles
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/8/1 16:34
  */
 class ParseContentToArray
@@ -27,8 +27,7 @@ class ParseContentToArray
     /**
      * 解析php文件.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 16:41
+     * @author ShuQingZai
      */
     public static function parsePhp(string $file): array
     {
@@ -38,8 +37,7 @@ class ParseContentToArray
     /**
      * 解析json.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 16:41
+     * @author ShuQingZai
      */
     public static function parseJson(string $file): array
     {
@@ -53,8 +51,7 @@ class ParseContentToArray
     /**
      * 解析xml.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 16:41
+     * @author ShuQingZai
      */
     public static function parseXml(string $file): array
     {
@@ -71,8 +68,7 @@ class ParseContentToArray
     /**
      * 解析ini.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 16:51
+     * @author ShuQingZai
      */
     public static function parseIni(string $file): array
     {
@@ -82,8 +78,7 @@ class ParseContentToArray
     /**
      * 解析内容.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/1 17:00
+     * @author ShuQingZai
      *
      * @param string $content 需要解析的内容 可以是一个文件
      * @param string $type    内容类型

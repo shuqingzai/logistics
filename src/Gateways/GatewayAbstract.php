@@ -25,7 +25,7 @@ use Overbeck\Logistics\Traits\HasHttpRequest;
  * 网关基类.
  *
  * Class GatewayAbstract
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:08
  */
 abstract class GatewayAbstract implements GatewayInterface
@@ -76,7 +76,6 @@ abstract class GatewayAbstract implements GatewayInterface
      * 配置.
      *
      * @var Config
-     *             DateTime 2020/7/29 15:17
      */
     protected $config;
 
@@ -84,31 +83,27 @@ abstract class GatewayAbstract implements GatewayInterface
      * guzzleHttp配置信息.
      *
      * @var array
-     *            DateTime 2020/7/29 15:20
      */
     protected $httpOptions;
 
     /**
-     * 请求超时时间.
+     * 请求超时时间
      *
-     * @var
-     * DateTime 2020/7/29 15:49
+     * @var float $timeout
      */
-    protected $timeout;
+    protected $timeout = 5.0;
 
     /**
-     * 响应超时时间.
+     * 响应超时时间
      *
-     * @var
-     * DateTime 2020/7/29 15:53
+     * @var float $connectTimeout
      */
-    protected $connectTimeout;
+    protected $connectTimeout = 5.0;
 
     /**
      * 物流公司名称.
      *
      * @var string
-     *             DateTime 2020/7/30 15:27
      */
     protected $companyName = '';
 
@@ -116,15 +111,13 @@ abstract class GatewayAbstract implements GatewayInterface
      * 物流公司列表.
      *
      * @var array
-     *            DateTime 2020/7/30 17:11
      */
     protected $companyList = [];
 
     /**
      * 格式化响应数据.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 14:22
+     * @author ShuQingZai
      *
      * @param ResponseInterface|array|string $response 原始响应数据
      *
@@ -135,8 +128,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 统一格式化物流状态code.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 11:28
+     * @author ShuQingZai
      *
      * @param int|string $originalStatus 请求响应中返回的状态
      */
@@ -178,8 +170,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取请求超时时间.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 16:05
+     * @author ShuQingZai
      *
      * @return float
      */
@@ -191,8 +182,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置请求超时时间.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 16:05
+     * @author ShuQingZai
      *
      * @return $this
      */
@@ -206,8 +196,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取响应超时时间.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 16:06
+     * @author ShuQingZai
      *
      * @return float
      */
@@ -219,8 +208,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置响应超时时间.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/29 16:03
+     * @author ShuQingZai
      *
      * @return $this
      */
@@ -249,8 +237,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:29
+     * @author ShuQingZai
      */
     public function getCompanyList(): array
     {
@@ -260,8 +247,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 设置物流公司信息.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/31 17:26
+     * @author ShuQingZai
      */
     public function setCompanyList(array $companyList): GatewayInterface
     {
@@ -273,8 +259,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 获取物流状态描述名称.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 11:30
+     * @author ShuQingZai
      */
     protected function getStatusName(int $status): string
     {
@@ -284,8 +269,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 根据快递公司名称从配置文件中获取code.
      *
-     * Author ShuQingZai
-     * DateTime 2020/7/30 8:40
+     * @author ShuQingZai
      *
      * @throws InvalidArgumentException
      */
@@ -308,8 +292,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 根据物流公司code获取物流公司名称.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/2 11:01
+     * @author ShuQingZai
      */
     protected function getCompanyNameByCode(string $code): string
     {

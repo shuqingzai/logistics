@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Facade;
  * Laravel 门面.
  *
  * Class Facade
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/8/2 14:01
  *
  * @mixin \Overbeck\Logistics\Logistics
@@ -31,8 +31,7 @@ class Logistics extends Facade
     /**
      * 获取门面标识.
      *
-     * Author ShuQingZai
-     * DateTime 2020/8/2 14:02
+     * @author ShuQingZai
      *
      * @return string
      */

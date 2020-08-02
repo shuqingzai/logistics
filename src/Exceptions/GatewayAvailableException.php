@@ -20,7 +20,7 @@ use Throwable;
  * 网关可用异常.
  *
  * Class GatewayAvailableException
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:07
  */
 class GatewayAvailableException extends Exception implements GatewayAvailableInterface

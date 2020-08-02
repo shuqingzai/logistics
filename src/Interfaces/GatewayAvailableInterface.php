@@ -17,7 +17,7 @@ namespace Overbeck\Logistics\Interfaces;
  * 网关可用异常接口.
  *
  * Interface GatewayAvailableInterface
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:09
  */
 interface GatewayAvailableInterface

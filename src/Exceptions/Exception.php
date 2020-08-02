@@ -17,7 +17,7 @@ namespace Overbeck\Logistics\Exceptions;
  * 异常基类.
  *
  * Class Exception
- * Author ShuQingZai
+ * @author ShuQingZai
  * DateTime 2020/7/31 16:07
  */
 class Exception extends \Exception
