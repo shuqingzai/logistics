@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the overbeck/logistics.
  *
- * (c) overbeck<i@overbeck.me>
+ * (c) overbeck<929024757@qq.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -20,6 +20,7 @@ use Overbeck\Logistics\Exceptions\GatewayErrorException;
  * 物流接口.
  *
  * Interface LogisticsInterface
+ *
  * @author ShuQingZai
  * DateTime 2020/7/31 16:09
  */

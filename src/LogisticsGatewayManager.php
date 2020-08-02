@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the overbeck/logistics.
  *
- * (c) overbeck<i@overbeck.me>
+ * (c) overbeck<929024757@qq.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -23,6 +23,7 @@ use Overbeck\Logistics\Supports\Config;
  * 物流网关管理.
  *
  * Class LogisticsGatewayManager
+ *
  * @author ShuQingZai
  * DateTime 2020/8/1 18:41
  */
@@ -70,7 +71,7 @@ class LogisticsGatewayManager
 
     public function __construct(array $config, Logistics $logistics)
     {
-        $this->config    = new Config($config);
+        $this->config = new Config($config);
         $this->logistics = $logistics;
         $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
         $this->config->has('disable') && $this->setDisableGateways($this->config->get('disable'));
@@ -167,8 +168,7 @@ class LogisticsGatewayManager
     {
         if (\is_null($name)) {
             $this->gateways = [];
-        }
-        elseif (isset($this->gateways[$name])) {
+        } elseif (isset($this->gateways[$name])) {
             unset($this->gateways[$name]);
         }
 
@@ -196,22 +196,21 @@ class LogisticsGatewayManager
      */
     protected function makeGateway(string $name): GatewayInterface
     {
-        $config = $this->config->get('gateways.' . $name, []);
+        $config = $this->config->get('gateways.'.$name, []);
         if (!isset($config['http'])) {
             $config['http'] = $this->config->get('http', []);
         }
 
-        $config['http']['timeout']         = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
+        $config['http']['timeout'] = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
         $config['http']['connect_timeout'] = $config['http']['connect_timeout'] ?: GatewayAbstract::DEFAULT_CONNECT_TIMEOUT;
 
         if (isset($this->customGateway[$name])) {
             $appInstance = $this->callCustomCreator($name, $config);
-        }
-        else {
+        } else {
             $className = $this->formatGatewayClassName($name);
 
             try {
-                $app         = new \ReflectionClass($className);
+                $app = new \ReflectionClass($className);
                 $appInstance = $app->newInstance($config);
             } catch (\ReflectionException $e) {
                 throw new InvalidArgumentException($e->getMessage());
@@ -233,7 +232,7 @@ class LogisticsGatewayManager
      */
     protected function callCustomCreator(string $gateway, array $config = []): GatewayInterface
     {
-        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.' . $gateway, []));
+        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.'.$gateway, []));
     }
 
     /**
@@ -249,6 +248,6 @@ class LogisticsGatewayManager
 
         $name = \ucfirst(\str_replace(['-', '_', ''], '', $name));
 
-        return __NAMESPACE__ . '\\Gateways\\' . $name . 'Gateway';
+        return __NAMESPACE__.'\\Gateways\\'.$name.'Gateway';
     }
 }
