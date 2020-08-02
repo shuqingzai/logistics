@@ -23,11 +23,11 @@ namespace Overbeck\Logistics\Exceptions;
  */
 class GatewayErrorException extends Exception
 {
-    protected $raw = [];
+    protected $results = [];
 
-    public function __construct(string $message, int $code = 0, array $raw = [])
+    public function __construct(string $message, int $code = 0, array $results = [])
     {
-        $this->raw = $raw;
+        $this->results = $results;
 
         parent::__construct($message, $code);
     }
@@ -39,8 +39,8 @@ class GatewayErrorException extends Exception
      *
      * @author ShuQingZai<929024757@qq.com>
      */
-    public function getRaw(): array
+    public function getResults(): array
     {
-        return $this->raw;
+        return $this->results;
     }
 }

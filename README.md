@@ -315,6 +315,10 @@ dump($kd->get('result.list'));
 
 `\Overbeck\Logistics\Exceptions\GatewayAvailableException` 当所有可用网关都不能使用时，抛出该异常
 
+`\Overbeck\Logistics\Exceptions\GatewayErrorException` 和 `\Overbeck\Logistics\Exceptions\GatewayAvailableException` 都提供了一个 `getResults()` 函数获取远程请求返回的信息
+
+`\Overbeck\Logistics\Exceptions\GatewayAvailableException`  还实现 `Overbeck\Logistics\Interfaces\GatewayAvailableInterface`  接口，提供几个有用的函数
+
 ## Laravel 应用
 
 ### 1. 注册服务
