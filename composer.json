@@ -3,6 +3,7 @@
     "type": "library",
     "description": "A quick library for querying express logistics information.",
     "keywords": ["logistics", "express delivery", "shipping"],
+    "homepage": "https://github.com/shuqingzai/logistics",
     "license": "MIT",
     "authors": [
         {
@@ -11,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": ">=7.2.5",
         "ext-openssl": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
