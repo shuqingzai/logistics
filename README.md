@@ -20,7 +20,7 @@
 ## 安装
 
 ```shell
-$ composer require shuqingzai/logistics -vvv
+$ composer require overbeck/logistics -vvv
 ```
 
 ## 使用
