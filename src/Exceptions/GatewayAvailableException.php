@@ -45,6 +45,7 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
 
     /**
      * @param string $gateway
+     *
      * @return mixed|null
      */
     public function getException(string $gateway)
