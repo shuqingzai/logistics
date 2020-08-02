@@ -91,7 +91,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 请求超时时间.
      *
-     * @var 
+     * @var
      * DateTime 2020/7/29 15:49
      */
     protected $timeout;
@@ -99,7 +99,7 @@ abstract class GatewayAbstract implements GatewayInterface
     /**
      * 响应超时时间.
      *
-     * @var 
+     * @var
      * DateTime 2020/7/29 15:53
      */
     protected $connectTimeout;
