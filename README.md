@@ -365,7 +365,7 @@ class LogisticsController extends Controller
 
 ## 参考
 
-* [PHP 扩展包实战教程 - 从入门到发布](https://learnku.com/courses/creating-package)
+* [PHP 扩展包实战教程 - 从入门到发布](https://learnku.com/courses/creating-package/ target="_blank")
 * [overtrue/easy-sms](https://github.com/overtrue/easy-sms)
 * [overtrue/wechat](https://github.com/overtrue/wechat)
 
