@@ -33,9 +33,10 @@ class GatewayErrorException extends Exception
     }
 
     /**
-     * 原始响应数据
+     * 原始响应数据.
      *
      * @return array
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getRaw(): array
