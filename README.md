@@ -1,6 +1,6 @@
 <h1 align="center"> logistics </h1>
 
-<p align="center"> A logistics library.</p>
+<p align="center"> A quick library for querying express logistics information.</p>
 
 [![Build Status](https://travis-ci.org/shuqingzai/logistics.svg?branch=master)](https://travis-ci.org/shuqingzai/logistics)
 ![StyleCI build status](https://github.styleci.io/repos/283132448/shield)
