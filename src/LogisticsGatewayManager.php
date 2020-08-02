@@ -85,11 +85,14 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 获取网关实例
+     * 获取网关实例.
      *
      * @param string|null $name
+     *
      * @return GatewayInterface
+     *
      * @throws InvalidArgumentException
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function gateway(?string $name = null): GatewayInterface
@@ -104,10 +107,12 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 获取默认网关
+     * 获取默认网关.
      *
      * @return string
+     *
      * @throws \RuntimeException 没有配置默认网关
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getDefaultGateway(): string
@@ -120,9 +125,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 是否设置默认网关
+     * 是否设置默认网关.
      *
      * @return bool
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function hasDefaultGateway(): bool
@@ -131,10 +137,12 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 设置默认网关
+     * 设置默认网关.
      *
      * @param string $defaultGateway
+     *
      * @return Logistics
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function setDefaultGateway(string $defaultGateway): Logistics
@@ -145,9 +153,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 设置默认网关
+     * 设置默认网关.
      *
      * @return Config
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getConfig(): Config
@@ -156,9 +165,10 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 获取禁用网关
+     * 获取禁用网关.
      *
      * @return array
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getDisableGateways(): array
@@ -167,10 +177,12 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 设置禁用网关
+     * 设置禁用网关.
      *
      * @param array $disableGateways
+     *
      * @return Logistics
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function setDisableGateways(array $disableGateways): Logistics
@@ -181,10 +193,12 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 注销网关服务实例
+     * 注销网关服务实例.
      *
      * @param string|null $name
+     *
      * @return Logistics
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function unregisterAppInstance(?string $name = null): Logistics
@@ -199,11 +213,13 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 注册自定义网关
+     * 注册自定义网关.
      *
      * @param string   $name
      * @param \Closure $closure
+     *
      * @return Logistics
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function registerCustomGateway(string $name, \Closure $closure): Logistics
@@ -217,8 +233,11 @@ class LogisticsGatewayManager
      * 创建网关服务
      *
      * @param string $name
+     *
      * @return GatewayInterface
+     *
      * @throws InvalidArgumentException
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     protected function makeGateway(string $name): GatewayInterface
@@ -257,7 +276,9 @@ class LogisticsGatewayManager
      *
      * @param string $gateway
      * @param array  $config
+     *
      * @return GatewayInterface
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     protected function callCustomCreator(string $gateway, array $config = []): GatewayInterface
@@ -266,10 +287,12 @@ class LogisticsGatewayManager
     }
 
     /**
-     * 格式化网关类名称
+     * 格式化网关类名称.
      *
      * @param string $name
+     *
      * @return string
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     protected function formatGatewayClassName(string $name): string

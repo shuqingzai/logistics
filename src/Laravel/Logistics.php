@@ -30,9 +30,10 @@ use Illuminate\Support\Facades\Facade;
 class Logistics extends Facade
 {
     /**
-     * 获取门面标识
+     * 获取门面标识.
      *
      * @return string
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public static function getFacadeAccessor()
