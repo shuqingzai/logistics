@@ -264,6 +264,20 @@ $logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
 
 ```
 
+**读取信息**
+
+```php
+$res = $logistics->query('123456789','顺丰速运');
+
+/** @var \Overbeck\Logistics\Supports\Collection $kd */
+$kd  = $res['kuaidi100'];
+echo $kd->get('status');
+dump($kd->get('result.list'));
+// ....
+```
+
+
+
 **`result.status` 说明**
 
 | 值（status） | 名称（status_name） |                             解析                             |
