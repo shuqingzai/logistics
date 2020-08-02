@@ -103,7 +103,7 @@ $logistics->query('123456789','顺丰速运'); // 锁定快递公司，更快速
 
 如果传入物流公司名称，可以快速锁定物流单号，无需额外的`http`请求第三方网关获取，减少开销
 
-默认提供 `/vendor/shuqingzai/logistics/src/config/company.php` 物流公司列表文件，已包含一些常用的物流公司与物流公司`code` ,允许用户自定义配置文件或动态设置
+默认提供 `/vendor/overbeck/logistics/src/config/company.php` 物流公司列表文件，已包含一些常用的物流公司与物流公司`code` ,允许用户自定义配置文件或动态设置
 
 #### 文件配置物流公司
 
