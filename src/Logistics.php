@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the overbeck/logistics.
  *
- * (c) overbeck<i@overbeck.me>
+ * (c) overbeck<929024757@qq.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -23,6 +23,7 @@ use Overbeck\Logistics\Supports\ParseContentToArray;
  * 物流API.
  *
  * Class Logistics
+ *
  * @author ShuQingZai
  * DateTime 2020/7/31 17:37
  *
@@ -183,8 +184,7 @@ class Logistics implements LogisticsInterface
      *
      * @author ShuQingZai
      *
-     * @param string $name
-     * @param mixed  $avg
+     * @param mixed $avg
      *
      * @return mixed
      */
