@@ -1,23 +1,28 @@
 <?php
+
 declare(strict_types=1);
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<i@overbeck.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics\Gateways;
-
 
 use Psr\Http\Message\ResponseInterface;
 use Overbeck\Logistics\Exceptions\GatewayErrorException;
 use Overbeck\Logistics\Exceptions\InvalidArgumentException;
 
-
 /**
- * 快递100
+ * 快递100.
  *
  * Class Kuaidi100Gateway
  * Author ShuQingZai
  * DateTime 2020/7/31 16:08
- *
- * @package Overbeck\Logistics\Gateways
  */
 class Kuaidi100Gateway extends GatewayAbstract
 {
@@ -26,14 +31,14 @@ class Kuaidi100Gateway extends GatewayAbstract
     const API_QUERY_CODE_URL = 'http://www.kuaidi100.com/autonumber/auto';
 
     /**
-     * 查询物流信息
+     * 查询物流信息.
      *
      * Author ShuQingZai
      * DateTime 2020/7/31 17:55
      *
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
-     * @return array
+     *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
      */
@@ -45,16 +50,16 @@ class Kuaidi100Gateway extends GatewayAbstract
             throw new InvalidArgumentException('Error obtaining courier code');
         }
 
-        $param     = [
-            'com'      => $companyCode,
-            'num'      => $logisticNumber,
-            'resultv2' => 1
+        $param = [
+            'com' => $companyCode,
+            'num' => $logisticNumber,
+            'resultv2' => 1,
         ];
         $appSecret = $this->config->get('customer');
-        $params    = [
+        $params = [
             'customer' => $appSecret,
-            'param'    => \json_encode($param),
-            'sign'     => $this->generateSign($param, $this->config->get('key'), $appSecret),
+            'param' => \json_encode($param),
+            'sign' => $this->generateSign($param, $this->config->get('key'), $appSecret),
         ];
 
         $response = $this->post(self::API_QUERY_URL, $params);
@@ -63,13 +68,13 @@ class Kuaidi100Gateway extends GatewayAbstract
     }
 
     /**
-     * 请求API获取快递公司code
+     * 请求API获取快递公司code.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 17:19
      *
      * @param string $logisticNumber 快递单号
-     * @return string
+     *
      * @throws GatewayErrorException
      */
     protected function queryCompanyCode(string $logisticNumber): string
@@ -87,17 +92,17 @@ class Kuaidi100Gateway extends GatewayAbstract
 
         $code = \current($response)['comCode'] ?? null;
         if (empty($response) || \is_null($code)) {
-            throw new GatewayErrorException('Could not find this company code.', 404, (array)$response);
+            throw new GatewayErrorException('Could not find this company code.', 404, (array) $response);
         }
 
-        $code              = \strtolower($code);
+        $code = \strtolower($code);
         $this->companyName = $this->getCompanyNameByCode($code);
 
         return $code;
     }
 
     /**
-     * 签名
+     * 签名.
      *
      * Author ShuQingZai
      * DateTime 2020/7/29 16:18
@@ -105,21 +110,22 @@ class Kuaidi100Gateway extends GatewayAbstract
      * @param array  $params    签名参数
      * @param string $appKey    密匙 ( key )
      * @param string $appSecret 密钥 ( customer )
+     *
      * @return string
      */
     protected function generateSign(array $params, string $appKey, string $appSecret)
     {
-        return \strtoupper(\md5(\json_encode($params) . $appKey . $appSecret));
+        return \strtoupper(\md5(\json_encode($params).$appKey.$appSecret));
     }
 
     /**
-     * 格式化响应数据
+     * 格式化响应数据.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 14:22
      *
      * @param ResponseInterface|array|string $response 原始响应数据
-     * @return array
+     *
      * @throws GatewayErrorException
      */
     protected function formatData($response): array
@@ -129,51 +135,49 @@ class Kuaidi100Gateway extends GatewayAbstract
         }
 
         if (empty($response)) {
-            throw new GatewayErrorException('Failed to find data.', 404, (array)$response);
+            throw new GatewayErrorException('Failed to find data.', 404, (array) $response);
         }
 
         $list = [];
         if (200 === \intval($response['status'] ?? 500)) {
-            $code           = 1;
+            $code = 1;
             $originalStatus = $response['state'];
-            $companyCode    = $response['com'];
+            $companyCode = $response['com'];
             $logisticNumber = $response['nu'];
             foreach ($response['data'] as $item) {
                 $list[] = [
-                    'context'   => $item['context'],
+                    'context' => $item['context'],
                     'date_time' => $item['ftime'],
                 ];
             }
-        }
-        else {
-            $code           = 0;
+        } else {
+            $code = 0;
             $originalStatus = 99;
-            $companyCode    = '';
+            $companyCode = '';
             $logisticNumber = '';
         }
 
         $status = $this->formatStatus($originalStatus);
 
         return [
-            'code'            => $code,
-            'status'          => $status,
-            'status_name'     => $this->getStatusName($status),
-            'company_code'    => $companyCode,
-            'company_name'    => $this->companyName,
+            'code' => $code,
+            'status' => $status,
+            'status_name' => $this->getStatusName($status),
+            'company_code' => $companyCode,
+            'company_name' => $this->companyName,
             'tracking_number' => $logisticNumber,
-            'list'            => $list,
-            'original_data'   => \json_encode($response)
+            'list' => $list,
+            'original_data' => \json_encode($response),
         ];
     }
 
     /**
-     * 统一格式化物流状态code
+     * 统一格式化物流状态code.
      *
      * Author ShuQingZai
      * DateTime 2020/7/30 11:28
      *
      * @param int|string $originalStatus 请求响应中返回的状态
-     * @return int
      */
     protected function formatStatus($originalStatus): int
     {
