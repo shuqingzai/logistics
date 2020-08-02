@@ -6,7 +6,7 @@ php:  # 需要测试的php版本
   - 7.3
   - 7.4
 
-dist: trusty   # 系统版本
+dist: bionic   # 系统版本
 
 # 执行前需要运行的命令
 install: travis_retry composer install --no-interaction --prefer-source
