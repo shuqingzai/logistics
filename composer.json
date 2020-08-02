@@ -2,6 +2,7 @@
     "name": "overbeck\/logistics",
     "type": "library",
     "description": "A quick library for querying express logistics information.",
+    "keywords": ["logistics", "express delivery", "shipping"],
     "license": "MIT",
     "authors": [
         {
