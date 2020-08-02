@@ -355,6 +355,7 @@ php artisan vendor:publish --provider="Overbeck\Logistics\Laravel\ServiceProvide
 
 * [PHP 扩展包实战教程 - 从入门到发布](https://learnku.com/courses/creating-package)
 * [overtrue/easy-sms](https://github.com/overtrue/easy-sms)
+* [overtrue/wechat](https://github.com/overtrue/wechat)
 
 ## 最后
 欢迎提出 issue 和 pull request，也可以留言`929024757@qq.com`
