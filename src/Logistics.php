@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * This file is part of the overbeck/logistics.
  *
- * (c) overbeck<i@overbeck.me>
+ * (c) overbeck<929024757@qq.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -23,6 +23,7 @@ use Overbeck\Logistics\Supports\ParseContentToArray;
  * 物流API.
  *
  * Class Logistics
+ *
  * @author ShuQingZai
  * DateTime 2020/7/31 17:37
  *
@@ -50,7 +51,6 @@ class Logistics implements LogisticsInterface
     /**
      * Logistics constructor.
      *
-     * @param array $config
      * @throws InvalidArgumentException
      */
     public function __construct(array $config)
@@ -60,15 +60,15 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     *
      * 查询物流
      *
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
      * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
-     * @return array
+     *
      * @throws GatewayAvailableException
      * @throws InvalidArgumentException
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function query(string $logisticNumber, ?string $company = null, $gateways = []): array
@@ -118,11 +118,9 @@ class Logistics implements LogisticsInterface
         return $results;
     }
 
-
     /**
-     * 获取物流公司信息
+     * 获取物流公司信息.
      *
-     * @return array
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getCompanyList(): array
@@ -133,10 +131,10 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 设置物流公司信息
+     * 设置物流公司信息.
      *
-     * @param array $companyList
      * @return $this|LogisticsInterface
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function setCompanyList(array $companyList): LogisticsInterface
@@ -147,9 +145,8 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 获取默认的物流公司列表
+     * 获取默认的物流公司列表.
      *
-     * @return array
      * @author ShuQingZai<929024757@qq.com>
      */
     public function getDefaultCompanyList(): array
@@ -158,10 +155,12 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 初始化配置文件的物流公司列表
+     * 初始化配置文件的物流公司列表.
      *
      * @return array
+     *
      * @throws InvalidArgumentException
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     protected function initCompanyFiles()
@@ -183,11 +182,12 @@ class Logistics implements LogisticsInterface
     }
 
     /**
-     * 魔术方法
+     * 魔术方法.
      *
-     * @param string $name
-     * @param        $avg
+     * @param $avg
+     *
      * @return mixed
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function __call(string $name, $avg)
