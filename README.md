@@ -287,8 +287,10 @@ $res = $logistics->query('123456789','顺丰速运');
 
 /** @var \Overbeck\Logistics\Supports\Collection $kd */
 $kd  = $res['kuaidi100'];
-echo $kd->get('status');
-dump($kd->get('result.list'));
+echo $kd->get('status'); // 获取网关状态
+echo $kd100->get('result.status'); // 获取快递状态
+echo $kd100->get('result.status_name'); // 获取快递状态名称
+dump($kd->get('result.list')); // 获取快递信息列表
 // ....
 ```
 
