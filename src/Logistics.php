@@ -42,7 +42,7 @@ class Logistics implements LogisticsInterface
     protected $logisticsGatewayManager;
 
     /**
-     * 默认的网关列表
+     * 默认的网关列表.
      *
      * @var array
      */
@@ -65,7 +65,7 @@ class Logistics implements LogisticsInterface
     public function __construct(array $config)
     {
         $this->logisticsGatewayManager = new LogisticsGatewayManager($config, $this);
-        $this->companyList             = $this->initCompanyFiles();
+        $this->companyList = $this->initCompanyFiles();
     }
 
     /**
@@ -89,11 +89,11 @@ class Logistics implements LogisticsInterface
         }
 
         $gatewaysConfig = $this->logisticsGatewayManager->getGateways();
-        $results        = [];
-        $errResults     = 0;
+        $results = [];
+        $errResults = 0;
         foreach ($gatewaysConfig as $gateway => $config) {
             if (!empty($gateways) && !\in_array($gateway, $gateways)) {
-                throw new InvalidArgumentException('The gateway "' . $gateway . '" is unavailable');
+                throw new InvalidArgumentException('The gateway "'.$gateway.'" is unavailable');
             }
 
             if ($this->logisticsGatewayManager->hasDefaultGateway() && $gateway !== $this->logisticsGatewayManager->getDefaultGateway()) {
@@ -107,15 +107,15 @@ class Logistics implements LogisticsInterface
             try {
                 $results[$gateway] = new Collection([
                                                         'gateway' => $gateway,
-                                                        'status'  => self::STATUS_SUCCESS,
-                                                        'result'  => $this->logisticsGatewayManager->gateway($gateway)
+                                                        'status' => self::STATUS_SUCCESS,
+                                                        'result' => $this->logisticsGatewayManager->gateway($gateway)
                                                                                                    ->setCompanyList($this->getCompanyList())
                                                                                                    ->query($logisticNumber, $company),
                                                     ]);
             } catch (\Throwable $e) {
                 $results[$gateway] = new Collection([
-                                                        'gateway'   => $gateway,
-                                                        'status'    => self::STATUS_FAILURE,
+                                                        'gateway' => $gateway,
+                                                        'status' => self::STATUS_FAILURE,
                                                         'exception' => $e,
                                                     ]);
                 ++$errResults;
@@ -168,7 +168,7 @@ class Logistics implements LogisticsInterface
      */
     public function getDefaultCompanyList(): array
     {
-        empty($this->defaultCompanyList) && $this->defaultCompanyList = include __DIR__ . '/config/company.php';
+        empty($this->defaultCompanyList) && $this->defaultCompanyList = include __DIR__.'/config/company.php';
 
         return $this->defaultCompanyList;
     }
@@ -184,13 +184,13 @@ class Logistics implements LogisticsInterface
      */
     protected function initCompanyFiles()
     {
-        $companyFiles     = $this->getConfig()->get('company_file', []);
-        $companyFiles     = \is_array($companyFiles) ? $companyFiles : \explode(',', $companyFiles);
+        $companyFiles = $this->getConfig()->get('company_file', []);
+        $companyFiles = \is_array($companyFiles) ? $companyFiles : \explode(',', $companyFiles);
         $companyFilesList = [];
         foreach ($companyFiles as $file) {
-            if (\is_file((string)$file)) {
-                $type             = \pathinfo($file, PATHINFO_EXTENSION);
-                $fileArr          = ParseContentToArray::parseContent($file, $type);
+            if (\is_file((string) $file)) {
+                $type = \pathinfo($file, PATHINFO_EXTENSION);
+                $fileArr = ParseContentToArray::parseContent($file, $type);
                 $companyFilesList = \array_merge($companyFilesList, $fileArr);
             }
         }
