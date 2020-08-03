@@ -38,6 +38,13 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
         parent::__construct('The gateways have failed. You can check "\Overbeck\Logistics\Interfaces\GatewayAvailableInterface" to get the results', $code, $previous);
     }
 
+    /**
+     * 获取结果.
+     *
+     * @return array
+     *
+     * @author ShuQingZai<929024757@qq.com>
+     */
     public function getResults(): array
     {
         return $this->results;
@@ -53,13 +60,24 @@ class GatewayAvailableException extends Exception implements GatewayAvailableInt
         return $this->exceptions[$gateway] ?? null;
     }
 
+    /**
+     * 获取所有网关异常.
+     *
+     * @return array
+     *
+     * @author ShuQingZai<929024757@qq.com>
+     */
     public function getExceptions(): array
     {
         return $this->exceptions;
     }
 
     /**
+     * 获取以后一个异常.
+     *
      * @return mixed
+     *
+     * @author ShuQingZai<929024757@qq.com>
      */
     public function getLastException()
     {

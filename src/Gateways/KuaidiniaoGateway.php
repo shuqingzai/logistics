@@ -87,7 +87,7 @@ class KuaidiniaoGateway extends GatewayAbstract
             $response = \json_decode($response, true);
         }
 
-        $code = $response['Shipper'][0]['ShipperCode'] ?? null;
+        $code = $response['Shippers'][0]['ShipperCode'] ?? null;
 
         if (empty($response) || \is_null($code)) {
             throw new GatewayErrorException('Could not find this company code.', 404, (array) $response);
