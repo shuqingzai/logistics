@@ -27,6 +27,7 @@ trait HasHttpRequest
      * @param string $endpoint
      * @param array  $query
      * @param array  $headers
+     *
      * @return array
      */
     protected function get(string $endpoint, array $query = [], array $headers = [])
@@ -43,6 +44,7 @@ trait HasHttpRequest
      * @param string $endpoint
      * @param array  $params
      * @param array  $headers
+     *
      * @return array
      */
     protected function post(string $endpoint, array $params = [], array $headers = [])
@@ -59,6 +61,7 @@ trait HasHttpRequest
      * @param string $endpoint
      * @param array  $params
      * @param array  $headers
+     *
      * @return array
      */
     protected function postJson(string $endpoint, array $params = [], array $headers = [])
@@ -74,7 +77,7 @@ trait HasHttpRequest
      *
      * @param string $method
      * @param string $endpoint
-     * @param array  $options http://docs.guzzlephp.org/en/latest/request-options.html
+     * @param array  $options  http://docs.guzzlephp.org/en/latest/request-options.html
      *
      * @return array
      */
@@ -103,6 +106,7 @@ trait HasHttpRequest
      * Return http client.
      *
      * @param array $options
+     *
      * @return \GuzzleHttp\Client
      *
      * @codeCoverageIgnore
@@ -116,6 +120,7 @@ trait HasHttpRequest
      * Convert response contents to json.
      *
      * @param ResponseInterface $response
+     *
      * @return ResponseInterface|array|string
      */
     protected function unwrapResponse(ResponseInterface $response)
