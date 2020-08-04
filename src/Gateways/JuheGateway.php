@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the overbeck/logistics.
  *
@@ -39,21 +41,17 @@ class JuheGateway extends GatewayAbstract
             throw new InvalidArgumentException('The name of the logistics company is required.');
         }
 
-        $companyCode = $this->getCompanyCodeByCompanyList($company);
-        if (empty($companyCode)) {
-            throw new InvalidArgumentException('Error obtaining courier code');
-        }
-
         $senderPhone = 0;
-        if (('顺丰速运' === $company || 'shunfeng' === $companyCode)) {
+        if ('顺丰速运' === $company) {
             if (empty($phone)) {
                 throw new InvalidArgumentException('SF Express must fill in a mobile phone number.');
             }
             $senderPhone = \substr($phone, -4);
         }
 
-        if ('shunfeng' === $companyCode && empty($phone)) {
-            throw new InvalidArgumentException('SF Express must fill in a mobile phone number.');
+        $companyCode = $this->getCompanyCodeByCompanyList($company);
+        if (empty($companyCode)) {
+            throw new InvalidArgumentException('Error obtaining courier code');
         }
 
         $params = [

@@ -50,6 +50,9 @@ return [
             'appKey' => env('LOGISTICS_APP_KEY_KDNIAN'), // appKey
             'EBusinessID' => env('LOGISTICS_SECRET_KDNIAN'), // EBusinessID
         ],
+        'juhe'=>[
+            'appKey'      => env('LOGISTICS_SECRET_JUHE'), // appKey
+        ]
         // ...
     ],
 
