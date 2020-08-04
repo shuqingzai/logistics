@@ -31,6 +31,7 @@ interface LogisticsInterface
      *
      * @param string       $logisticNumber 物流单号
      * @param string|null  $company        物流公司名称
+     * @param string|null  $phone          收|寄件人的电话号码（顺丰必填，其他选填）
      * @param array|string $gateways       需要使用的网关，如果不指定，则使用所有可用的网关
      *
      * @return array
@@ -40,7 +41,7 @@ interface LogisticsInterface
      *
      * @author ShuQingZai<929024757@qq.com>
      */
-    public function query(string $logisticNumber, ?string $company = null, $gateways = []): array;
+    public function query(string $logisticNumber, ?string $company = null, ?string $phone = null, $gateways = []): array;
 
     /**
      * 获取物流公司信息.

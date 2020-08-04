@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Overbeck\Logistics\Interfaces;
 
+use Overbeck\Logistics\Exceptions\GatewayErrorException;
+use Overbeck\Logistics\Exceptions\InvalidArgumentException;
+
 /**
  * 网关接口.
  *
@@ -38,11 +41,14 @@ interface GatewayInterface
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
      *
+     * @param string|null $phone          收|寄件人的电话号码（顺丰必填，其他选填）
      * @return array
      *
+     * @throws GatewayErrorException
+     * @throws InvalidArgumentException
      * @author ShuQingZai<929024757@qq.com>
      */
-    public function query(string $logisticNumber, ?string $company = null): array;
+    public function query(string $logisticNumber, ?string $company = null, ?string $phone = null): array;
 
     /**
      * 设置物流公司信息.

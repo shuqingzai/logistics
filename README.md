@@ -99,8 +99,13 @@ $res       = $logistics->query('123456789','顺丰速运');
 ### 快速使用示例
 
 ```php
+// 提供query函数即时查询物流信息
+$logistics->query(string $logisticNumber, ?string $company = null, ?string $phone = null, $gateways = []): array
+// 示例
 $logistics->query('123456789'); // 仅用快递单号查询，不清楚快递公司时可用
-$logistics->query('123456789','顺丰速运'); // 锁定快递公司，更快速的查询
+$logistics->query('123456789','圆通速递'); // 锁定快递公司，更快速的查询
+// 如果是 顺丰速运 的物流单号查询必须传递寄件人手机号
+$logistics->query('123456789','顺丰速运','13800138000');
 ```
 
 ### 物流公司
@@ -209,8 +214,8 @@ $logistics->getDefaultCompanyList();
 一般情况下，可用网关是在配置文件中读取，你也可以直接传递第三个参数指定网关
 
 ```php
-$logistics->query('123456789','顺丰速运', 'kuaidi100'); // 指定单个网关的时，可以直接传递字符串
-$logistics->query('123456789','顺丰速运', ['kuaidi100', 'kuaidiniao']);
+$logistics->query('123456789','申通快递', null, 'kuaidi100'); // 指定单个网关的时，可以直接传递字符串
+$logistics->query('123456789','申通快递', null, ['kuaidi100', 'kuaidiniao']);
 ```
 
 **注意：如果传递的网关不可用，会抛出 `\Overbeck\Logistics\Exceptions\InvalidArgumentException` 异常**
@@ -373,7 +378,7 @@ class LogisticsController extends Controller
 ```
 
 
-## 参考
+## 参考与鸣谢
 
 * [PHP 扩展包实战教程 - 从入门到发布](https://learnku.com/courses/creating-package)
 * [overtrue/easy-sms](https://github.com/overtrue/easy-sms)

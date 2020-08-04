@@ -37,37 +37,47 @@ class Kuaidi100Gateway extends GatewayAbstract
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
      *
+     * @param string|null $phone          收|寄件人的电话号码（顺丰必填，其他选填）
      * @return array
      *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
-     *
      * @author ShuQingZai<929024757@qq.com>
      */
-    public function query(string $logisticNumber, ?string $company = null): array
+    public function query(string $logisticNumber, ?string $company = null, ?string $phone = null): array
     {
+        if ('顺丰速运' === $company && empty($phone)) {
+            throw new InvalidArgumentException('SF Express must fill in a mobile phone number.');
+        }
+
         $companyCode = \is_null($company) ? $this->queryCompanyCode($logisticNumber) : $this->getCompanyCodeByCompanyList($company);
 
         if (empty($companyCode)) {
             throw new InvalidArgumentException('Error obtaining courier code');
         }
 
-        $param = [
-            'com' => $companyCode,
-            'num' => $logisticNumber,
+        if ('shunfeng' === $companyCode && empty($phone)) {
+            throw new InvalidArgumentException('SF Express must fill in a mobile phone number.');
+        }
+
+        $param     = [
+            'com'      => $companyCode,
+            'num'      => $logisticNumber,
+            'phone'    => $phone,
             'resultv2' => 1,
         ];
         $appSecret = $this->config->get('customer');
-        $params = [
+        $params    = [
             'customer' => $appSecret,
-            'param' => \json_encode($param),
-            'sign' => $this->generateSign($param, $this->config->get('key'), $appSecret),
+            'param'    => \json_encode($param),
+            'sign'     => $this->generateSign($param, $this->config->get('key'), $appSecret),
         ];
 
         $response = $this->post(self::API_QUERY_URL, $params);
 
         return $this->formatData($response);
     }
+
 
     /**
      * 请求API获取快递公司code.
@@ -95,10 +105,10 @@ class Kuaidi100Gateway extends GatewayAbstract
 
         $code = \current($response)['comCode'] ?? null;
         if (empty($response) || \is_null($code)) {
-            throw new GatewayErrorException('Could not find this company code.', 404, (array) $response);
+            throw new GatewayErrorException('Could not find this company code.', 404, (array)$response);
         }
 
-        $code = \strtolower($code);
+        $code              = \strtolower($code);
         $this->companyName = $this->getCompanyNameByCode($code);
 
         return $code;
@@ -117,7 +127,7 @@ class Kuaidi100Gateway extends GatewayAbstract
      */
     protected function generateSign(array $params, string $appKey, string $appSecret): string
     {
-        return \strtoupper(\md5(\json_encode($params).$appKey.$appSecret));
+        return \strtoupper(\md5(\json_encode($params) . $appKey . $appSecret));
     }
 
     /**
@@ -138,39 +148,39 @@ class Kuaidi100Gateway extends GatewayAbstract
         }
 
         if (empty($response)) {
-            throw new GatewayErrorException('Failed to find data.', 404, (array) $response);
+            throw new GatewayErrorException('Failed to find data.', 404, (array)$response);
         }
 
         $list = [];
         if (200 === \intval($response['status'] ?? 500)) {
-            $code = 1;
+            $code           = 1;
             $originalStatus = $response['state'];
-            $companyCode = $response['com'];
+            $companyCode    = $response['com'];
             $logisticNumber = $response['nu'];
             foreach ($response['data'] as $item) {
                 $list[] = [
-                    'context' => $item['context'],
+                    'context'   => $item['context'],
                     'date_time' => $item['ftime'],
                 ];
             }
         } else {
-            $code = 0;
+            $code           = 0;
             $originalStatus = 99;
-            $companyCode = '';
+            $companyCode    = '';
             $logisticNumber = '';
         }
 
         $status = $this->formatStatus($originalStatus);
 
         return [
-            'code' => $code,
-            'status' => $status,
-            'status_name' => $this->getStatusName($status),
-            'company_code' => $companyCode,
-            'company_name' => $this->companyName,
+            'code'            => $code,
+            'status'          => $status,
+            'status_name'     => $this->getStatusName($status),
+            'company_code'    => $companyCode,
+            'company_name'    => $this->companyName,
             'tracking_number' => $logisticNumber,
-            'list' => $list,
-            'original_data' => \json_encode($response),
+            'list'            => $list,
+            'original_data'   => \json_encode($response),
         ];
     }
 

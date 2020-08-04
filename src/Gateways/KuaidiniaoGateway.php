@@ -41,14 +41,14 @@ class KuaidiniaoGateway extends GatewayAbstract
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
      *
+     * @param string|null $phone          收|寄件人的电话号码（顺丰必填，其他选填）
      * @return array
      *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
-     *
      * @author ShuQingZai<929024757@qq.com>
      */
-    public function query(string $logisticNumber, ?string $company = null): array
+    public function query(string $logisticNumber, ?string $company = null, ?string $phone = null): array
     {
         $companyCode = \is_null($company) ? $this->queryCompanyCode($logisticNumber) : $this->getCompanyCodeByCompanyList($company);
 
@@ -65,6 +65,7 @@ class KuaidiniaoGateway extends GatewayAbstract
 
         return $this->formatData($response);
     }
+
 
     /**
      * 请求API获取快递公司code.
