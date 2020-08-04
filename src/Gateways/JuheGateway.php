@@ -58,7 +58,7 @@ class JuheGateway extends GatewayAbstract
             'com' => $companyCode,
             'no' => $logisticNumber,
             'senderPhone' => \intval($senderPhone),
-            'key' => $this->config->get('appKey'),
+            'key' => $this->config->get('key'),
             'dtype' => 'json',
         ];
         $response = $this->post(self::API_QUERY_URL, $params);
