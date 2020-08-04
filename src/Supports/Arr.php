@@ -68,6 +68,7 @@ class Arr
      * Divide an array into two arrays. One with keys and the other with values.
      *
      * @param array $array
+     *
      * @return array
      */
     public static function divide(array $array)
@@ -319,6 +320,7 @@ class Arr
      * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
      *
      * @param array $array
+     *
      * @return bool
      */
     public static function isAssoc(array $array)
@@ -384,6 +386,7 @@ class Arr
      *
      * @param array    $array
      * @param int|null $amount
+     *
      * @return mixed
      */
     public static function random(array $array, int $amount = null)
@@ -441,6 +444,7 @@ class Arr
      *
      * @param array    $array
      * @param callable $callback
+     *
      * @return array
      */
     public static function where(array $array, callable $callback)
