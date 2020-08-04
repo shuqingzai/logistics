@@ -82,9 +82,12 @@ $config = [
             ],
         ],
         'kdniao'    => [
-            'appKey'      => '', // appKey
-            'EBusinessID' => '', // EBusinessID
+            'appKey'      => '456das12-dda-s87-d9a-1d2a1-o-p9', // appKey
+            'EBusinessID' => '123456789', // EBusinessID
         ],
+        'juhe'=>[
+            'appKey'      => '4p5as1d21d564a56d12ad165a4d6', // appKey
+        ]
         // ...
     ],
     
