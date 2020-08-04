@@ -22,6 +22,7 @@
 
 * [快递100](https://www.kuaidi100.com/)
 * [快递鸟](https://www.kdniao.com/)
+* [聚合数据](https://www.juhe.cn/docs/api/id/43)
 
 ## 环境依赖
 
@@ -99,7 +100,7 @@ $res       = $logistics->query('123456789','顺丰速运');
 ### 快速使用示例
 
 ```php
-// 提供query函数即时查询物流信息
+// 提供 query() 函数即时查询物流信息
 $logistics->query(string $logisticNumber, ?string $company = null, ?string $phone = null, $gateways = []): array
 // 示例
 $logistics->query('123456789'); // 仅用快递单号查询，不清楚快递公司时可用
