@@ -58,6 +58,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
      * Return specific items.
      *
      * @param array $keys
+     *
      * @return \Overbeck\Logistics\Supports\Collection
      */
     public function only(array $keys)
@@ -123,6 +124,7 @@ class Collection implements Countable, IteratorAggregate, JsonSerializable, Seri
      * Run a filter over each of the items.
      *
      * @param callable|null $callback
+     *
      * @return static
      */
     public function filter(callable $callback = null)

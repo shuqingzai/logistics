@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of the overbeck/logistics.
+ *
+ * (c) overbeck<929024757@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Overbeck\Logistics\Gateways;
-
 
 use Overbeck\Logistics\Exceptions\GatewayErrorException;
 use Overbeck\Logistics\Exceptions\InvalidArgumentException;
@@ -17,12 +24,13 @@ class JuheGateway extends GatewayAbstract
      *
      * @param string      $logisticNumber 物流单号
      * @param string|null $company        物流公司名称
-     *
      * @param string|null $phone          收|寄件人的电话号码（顺丰必填，其他选填）
+     *
      * @return array
      *
      * @throws GatewayErrorException
      * @throws InvalidArgumentException
+     *
      * @author ShuQingZai<929024757@qq.com>
      */
     public function query(string $logisticNumber, ?string $company = null, ?string $phone = null): array
@@ -48,18 +56,17 @@ class JuheGateway extends GatewayAbstract
             throw new InvalidArgumentException('SF Express must fill in a mobile phone number.');
         }
 
-        $params   = [
-            'com'         => $companyCode,
-            'no'          => $logisticNumber,
+        $params = [
+            'com' => $companyCode,
+            'no' => $logisticNumber,
             'senderPhone' => \intval($senderPhone),
-            'key'         => $this->config->get('appKey'),
-            'dtype'       => 'json'
+            'key' => $this->config->get('appKey'),
+            'dtype' => 'json',
         ];
         $response = $this->post(self::API_QUERY_URL, $params);
 
         return $this->formatData($response);
     }
-
 
     /**
      * 格式化响应数据.
@@ -79,39 +86,39 @@ class JuheGateway extends GatewayAbstract
         }
 
         if (empty($response)) {
-            throw new GatewayErrorException('Failed to find data.', 404, (array)$response);
+            throw new GatewayErrorException('Failed to find data.', 404, (array) $response);
         }
 
         $list = [];
         if (0 === \intval($response['error_code'] ?? 1)) {
-            $code           = 1;
+            $code = 1;
             $originalStatus = $response['result']['status_detail'];
-            $companyCode    = $response['result']['com'];
+            $companyCode = $response['result']['com'];
             $logisticNumber = $response['result']['no'];
             foreach ($response['result']['list'] as $item) {
                 $list[] = [
-                    'context'   => $item['remark'],
+                    'context' => $item['remark'],
                     'date_time' => $item['datetime'],
                 ];
             }
         } else {
-            $code           = 0;
+            $code = 0;
             $originalStatus = 99;
-            $companyCode    = '';
+            $companyCode = '';
             $logisticNumber = '';
         }
 
         $status = $this->formatStatus($originalStatus);
 
         return [
-            'code'            => $code,
-            'status'          => $status,
-            'status_name'     => $this->getStatusName($status),
-            'company_code'    => $companyCode,
-            'company_name'    => $this->companyName,
+            'code' => $code,
+            'status' => $status,
+            'status_name' => $this->getStatusName($status),
+            'company_code' => $companyCode,
+            'company_name' => $this->companyName,
             'tracking_number' => $logisticNumber,
-            'list'            => $list,
-            'original_data'   => \json_encode($response),
+            'list' => $list,
+            'original_data' => \json_encode($response),
         ];
     }
 
@@ -161,5 +168,4 @@ class JuheGateway extends GatewayAbstract
 
         return $status;
     }
-
 }
