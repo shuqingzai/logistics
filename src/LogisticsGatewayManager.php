@@ -71,7 +71,7 @@ class LogisticsGatewayManager
 
     public function __construct(array $config, Logistics $logistics)
     {
-        $this->config    = new Config($config);
+        $this->config = new Config($config);
         $this->logistics = $logistics;
         $this->config->has('default') && $this->setDefaultGateway($this->config->get('default'));
         $this->config->has('disable') && $this->setDisableGateways($this->config->get('disable'));
@@ -242,12 +242,12 @@ class LogisticsGatewayManager
      */
     protected function makeGateway(string $name): GatewayInterface
     {
-        $config = $this->config->get('gateways.' . $name, []);
+        $config = $this->config->get('gateways.'.$name, []);
         if (!isset($config['http'])) {
             $config['http'] = $this->config->get('http', []);
         }
 
-        $config['http']['timeout']         = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
+        $config['http']['timeout'] = $config['http']['timeout'] ?: GatewayAbstract::DEFAULT_TIMEOUT;
         $config['http']['connect_timeout'] = $config['http']['connect_timeout'] ?: GatewayAbstract::DEFAULT_CONNECT_TIMEOUT;
 
         if (isset($this->customGateway[$name])) {
@@ -256,7 +256,7 @@ class LogisticsGatewayManager
             $className = $this->formatGatewayClassName($name);
 
             try {
-                $app         = new \ReflectionClass($className);
+                $app = new \ReflectionClass($className);
                 $appInstance = $app->newInstance($config);
             } catch (\ReflectionException $e) {
                 throw new InvalidArgumentException($e->getMessage());
@@ -283,7 +283,7 @@ class LogisticsGatewayManager
      */
     protected function callCustomCreator(string $gateway, array $config = []): GatewayInterface
     {
-        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.' . $gateway, []));
+        return \call_user_func($this->customGateway[$gateway], $config ?: $this->config->get('gateways.'.$gateway, []));
     }
 
     /**
@@ -305,6 +305,6 @@ class LogisticsGatewayManager
             return strtoupper($match[1]);
         }, $name);
 
-        return __NAMESPACE__ . '\\Gateways\\' . \ucfirst($name) . 'Gateway';
+        return __NAMESPACE__.'\\Gateways\\'.\ucfirst($name).'Gateway';
     }
 }
