@@ -1,7 +1,6 @@
 <h1 align="center"> logistics </h1>
 
 <p align="center"> A quick library for querying express logistics information.</p>
-[![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=shuqingzai)](https://github.com/anuraghazra/github-readme-stats)
 
 [![Build Status](https://travis-ci.org/shuqingzai/logistics.svg?branch=master)](https://travis-ci.org/shuqingzai/logistics)
 ![StyleCI build status](https://github.styleci.io/repos/283132448/shield)
@@ -12,6 +11,7 @@
 [![composer.lock](https://poser.pugx.org/overbeck/logistics/composerlock)](//packagist.org/packages/overbeck/logistics)
 [![.gitattributes](https://poser.pugx.org/overbeck/logistics/gitattributes)](//packagist.org/packages/overbeck/logistics)
 
+![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=shuqingzai&show_icons=true&theme=cobalt)
 
 ## 简介
 
